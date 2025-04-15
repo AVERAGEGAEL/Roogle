@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Google Docs</title>
+  <link rel="icon" href="https://ssl.gstatic.com/docs/doclist/images/infinite_arrow_favicon_5.ico" />
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+  <div class="top-bar">
+    <img src="https://ssl.gstatic.com/docs/doclist/images/infinite_arrow_favicon_5.ico" class="logo">
+    <span class="title">Docs</span>
+    <input type="text" id="urlInput" placeholder="Search Docs" autocomplete="off" />
+    <button onclick="go()">Go</button>
+  </div>
+  <iframe id="proxyFrame" class="proxy-frame"></iframe>
+
+  <script src="script.js"></script>
+</body>
+</html>
