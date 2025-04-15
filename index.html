@@ -2,20 +2,70 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Google Docs</title>
-  <link rel="icon" href="https://ssl.gstatic.com/docs/doclist/images/infinite_arrow_favicon_5.ico" />
-  <link rel="stylesheet" href="style.css" />
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Roboto&display=swap">
+  <style>
+    body {
+      font-family: 'Roboto', sans-serif;
+      background: #f8f9fa;
+      margin: 0;
+      padding: 0;
+    }
+    .toolbar {
+      background: #ffffff;
+      padding: 10px 20px;
+      box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+      display: flex;
+      align-items: center;
+    }
+    .logo {
+      font-weight: bold;
+      font-size: 22px;
+      color: #4285f4;
+      margin-right: 20px;
+    }
+    .input {
+      flex-grow: 1;
+      max-width: 600px;
+    }
+    input {
+      width: 100%;
+      padding: 8px;
+      font-size: 14px;
+      border: 1px solid #ccc;
+      border-radius: 6px;
+    }
+    iframe {
+      width: 100%;
+      height: calc(100vh - 60px);
+      border: none;
+    }
+  </style>
 </head>
 <body>
-  <div class="top-bar">
-    <img src="https://ssl.gstatic.com/docs/doclist/images/infinite_arrow_favicon_5.ico" class="logo">
-    <span class="title">Docs</span>
-    <input type="text" id="urlInput" placeholder="Search Docs" autocomplete="off" />
-    <button onclick="go()">Go</button>
+  <div class="toolbar">
+    <div class="logo">Docs</div>
+    <div class="input">
+      <input type="text" id="urlInput" placeholder="Enter a site like youtube.com" />
+    </div>
   </div>
-  <iframe id="proxyFrame" class="proxy-frame"></iframe>
+  <iframe id="proxyFrame" src=""></iframe>
 
-  <script src="script.js"></script>
+  <script>
+    const input = document.getElementById("urlInput");
+    const frame = document.getElementById("proxyFrame");
+
+    input.addEventListener("keydown", (e) => {
+      if (e.key === "Enter") {
+        let url = input.value.trim();
+        if (!url.startsWith("http")) {
+          url = "https://" + url;
+        }
+
+        frame.src = `https://fallen-america.uraverageopdoge.workers.dev/?url=${encodeURIComponent(url)}`;
+      }
+    });
+  </script>
 </body>
 </html>
