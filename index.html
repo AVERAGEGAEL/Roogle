@@ -20,6 +20,7 @@
             padding: 10px;
             width: 50%;
             font-size: 16px;
+            border-radius: 5px;
         }
         #search-button {
             padding: 10px;
@@ -28,6 +29,7 @@
             color: white;
             border: none;
             cursor: pointer;
+            border-radius: 5px;
         }
         #search-button:hover {
             background-color: #005a9e;
@@ -37,6 +39,9 @@
             height: 600px;
             border: none;
             margin-top: 20px;
+            display: block;
+            margin-left: auto;
+            margin-right: auto;
         }
     </style>
 </head>
@@ -44,7 +49,7 @@
 
     <h1>Worker Proxy</h1>
     <form id="search-form">
-        <input type="text" id="url-input" placeholder="Type your URL" />
+        <input type="text" id="url-input" placeholder="Type your URL here..." />
         <button type="submit" id="search-button">Go</button>
     </form>
 
@@ -60,9 +65,12 @@
                 url = "https://" + url;
             }
 
-            // Create an iframe to display the URL
+            // Construct the proxy URL with the entered URL as a query parameter
+            const proxyUrl = `https://fallen-america.uraverageopdoge.workers.dev?url=${encodeURIComponent(url)}`;
+
+            // Create an iframe to display the URL via the proxy
             let iframeContainer = document.getElementById("iframe-container");
-            iframeContainer.innerHTML = `<iframe src="${url}" id="proxy-iframe"></iframe>`;
+            iframeContainer.innerHTML = `<iframe src="${proxyUrl}" id="proxy-iframe"></iframe>`;
         });
     </script>
 
