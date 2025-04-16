@@ -32,6 +32,12 @@
         #search-button:hover {
             background-color: #005a9e;
         }
+        iframe {
+            width: 100%;
+            height: 600px;
+            border: none;
+            margin-top: 20px;
+        }
     </style>
 </head>
 <body>
@@ -41,6 +47,8 @@
         <input type="text" id="url-input" placeholder="Type your URL" />
         <button type="submit" id="search-button">Go</button>
     </form>
+
+    <div id="iframe-container"></div>
 
     <script>
         document.getElementById("search-form").addEventListener("submit", function(event) {
@@ -52,8 +60,9 @@
                 url = "https://" + url;
             }
 
-            // Redirect to the proxy server with the URL
-            window.location.href = "https://fallen-america.uraverageopdoge.workers.dev/?url=" + encodeURIComponent(url);
+            // Create an iframe to display the URL
+            let iframeContainer = document.getElementById("iframe-container");
+            iframeContainer.innerHTML = `<iframe src="${url}" id="proxy-iframe"></iframe>`;
         });
     </script>
 
