@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Worker Proxy</title>
-    <link type="image/png" sizes="16x16" rel="icon" href="icons8-google-docs-color-16.png">
+    <link type="image/png" sizes="16x16" rel="icon" href="https://upload.wikimedia.org/wikipedia/commons/thumb/e/e4/Google_Docs_logo_2020.svg/1024px-Google_Docs_logo_2020.svg.png">
     <style>
         body {
             font-family: 'Arial', sans-serif;
@@ -13,13 +13,20 @@
             padding: 0;
             text-align: center;
         }
+        #header {
+            background-color: #ffffff;
+            box-shadow: 0 1px 5px rgba(0,0,0,0.2);
+            padding: 20px;
+        }
         #search-form {
-            margin-top: 100px;
+            margin-top: 20px;
         }
         #url-input {
             padding: 10px;
             width: 50%;
             font-size: 16px;
+            border-radius: 4px;
+            border: 1px solid #ccc;
         }
         #search-button {
             padding: 10px;
@@ -28,6 +35,7 @@
             color: white;
             border: none;
             cursor: pointer;
+            border-radius: 4px;
         }
         #search-button:hover {
             background-color: #005a9e;
@@ -42,7 +50,10 @@
 </head>
 <body>
 
-    <h1>Worker Proxy</h1>
+    <div id="header">
+        <h1 style="font-size: 2.5em;">Worker Proxy</h1>
+    </div>
+    
     <form id="search-form">
         <input type="text" id="url-input" placeholder="Type your URL" />
         <button type="submit" id="search-button">Go</button>
