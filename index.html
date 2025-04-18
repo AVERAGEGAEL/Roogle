@@ -5,6 +5,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <title>Google Docs</title>
   <link rel="icon" href="GoogleDocs.png" type="image/png" />
+  <script src="https://www.google.com/recaptcha/api.js" async defer></script>
   <style>
     body {
       font-family: 'Arial', sans-serif;
@@ -54,27 +55,6 @@
       display: none;
     }
 
-    /* Loading Spinner */
-    #loading-spinner {
-      display: none;
-      margin-top: 50px;
-    }
-
-    .spinner {
-      border: 6px solid #f3f3f3;
-      border-top: 6px solid #4285f4;
-      border-radius: 50%;
-      width: 50px;
-      height: 50px;
-      animation: spin 1s linear infinite;
-      margin: auto;
-    }
-
-    @keyframes spin {
-      0% { transform: rotate(0deg); }
-      100% { transform: rotate(360deg); }
-    }
-
     /* Cloaked Tab Picker */
     #cloak-options {
       margin-top: 20px;
@@ -96,6 +76,27 @@
     #cloak-options button:hover {
       background-color: #d2e3fc;
     }
+
+    /* Loading Spinner */
+    #loading-spinner {
+      display: none;
+      margin-top: 50px;
+    }
+
+    .spinner {
+      border: 6px solid #f3f3f3;
+      border-top: 6px solid #4285f4;
+      border-radius: 50%;
+      width: 50px;
+      height: 50px;
+      animation: spin 1s linear infinite;
+      margin: auto;
+    }
+
+    @keyframes spin {
+      0% { transform: rotate(0deg); }
+      100% { transform: rotate(360deg); }
+    }
   </style>
 </head>
 <body>
@@ -114,6 +115,9 @@
     <button onclick="setCloakOption('Classroom')">Classroom</button>
     <button onclick="setCloakOption('Clever')">Clever</button>
   </div>
+
+  <!-- reCAPTCHA -->
+  <div class="g-recaptcha" data-sitekey="6Lfs_xsrAAAAAMBnldv22pHt8Q5mJe0es-fDd98s"></div>
 
   <!-- Spinner -->
   <div id="loading-spinner">
