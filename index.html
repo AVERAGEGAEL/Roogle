@@ -1,73 +1,115 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Google Docs</title>
-    <link type="image/png" sizes="16x16" rel="icon" href="GoogleDocs.png">
-    <script src="https://www.google.com/recaptcha/api.js" async defer></script>
-    <style>
-        body {
-            font-family: 'Arial', sans-serif;
-            background-color: #f1f3f4;
-            margin: 0;
-            padding: 0;
-            text-align: center;
-        }
-        #search-form {
-            margin-top: 100px;
-        }
-        #url-input {
-            padding: 10px;
-            width: 50%;
-            font-size: 16px;
-        }
-        #search-button {
-            padding: 10px;
-            font-size: 16px;
-            background-color: #0078d4;
-            color: white;
-            border: none;
-            cursor: pointer;
-        }
-        #search-button:hover {
-            background-color: #005a9e;
-        }
-        iframe {
-            width: 100%;
-            height: 600px;
-            border: none;
-            margin-top: 20px;
-        }
-    </style>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Google Docs</title>
+  <link rel="icon" type="image/png" href="GoogleDocs.png">
+  <script src="https://www.google.com/recaptcha/api.js" async defer></script>
+  <style>
+    body {
+      font-family: 'Arial', sans-serif;
+      background-color: #f1f3f4;
+      margin: 0;
+      padding: 0;
+      text-align: center;
+    }
+    #search-form {
+      margin-top: 60px;
+    }
+    #url-input {
+      padding: 10px;
+      width: 50%;
+      font-size: 16px;
+    }
+    #search-button {
+      padding: 10px;
+      font-size: 16px;
+      background-color: #0078d4;
+      color: white;
+      border: none;
+      cursor: pointer;
+    }
+    #search-button:hover {
+      background-color: #005a9e;
+    }
+    iframe {
+      width: 100%;
+      height: 600px;
+      border: none;
+      margin-top: 20px;
+    }
+    select {
+      margin-top: 10px;
+      padding: 5px;
+      font-size: 14px;
+    }
+  </style>
 </head>
 <body>
 
-    <h1>Google Docs</h1>
-    <form id="search-form">
-        <input type="text" id="url-input" placeholder="Type your URL" />
-        <button type="submit" id="search-button">Go</button>
-    </form>
+  <h1 style="display: none;">Google Docs</h1>
 
+  <form id="search-form">
+    <input type="text" id="url-input" placeholder="Type your URL" required />
     <div class="g-recaptcha" data-sitekey="6Lfs_xsrAAAAAMBnldv22pHt8Q5mJe0es-fDd98s"></div>
+    <br/>
+    <select id="cloak-select">
+      <option value="docs">Google Docs</option>
+      <option value="classroom">Google Classroom</option>
+      <option value="clever">Clever</option>
+    </select>
+    <br><br>
+    <button type="submit" id="search-button">Go</button>
+  </form>
 
-    <div id="iframe-container"></div>
+  <div id="iframe-container"></div>
 
-    <script>
-        document.getElementById("search-form").addEventListener("submit", function(event) {
-            event.preventDefault(); // Prevents the default form submission
-            let url = document.getElementById("url-input").value;
+  <script>
+    const cloakMap = {
+      docs: "https://docs.google.com/document/d/",
+      classroom: "https://classroom.google.com/",
+      clever: "https://clever.com/"
+    };
 
-            // Add https:// if missing
-            if (!url.startsWith("http://") && !url.startsWith("https://")) {
-                url = "https://" + url;
-            }
+    document.getElementById("search-form").addEventListener("submit", function(event) {
+      event.preventDefault();
 
-            // Create an iframe to display the URL
-            let iframeContainer = document.getElementById("iframe-container");
-            iframeContainer.innerHTML = `<iframe src="${url}" id="proxy-iframe"></iframe>`;
-        });
-    </script>
+      const urlInput = document.getElementById("url-input");
+      let url = urlInput.value.trim();
+      const cloak = document.getElementById("cloak-select").value;
 
+      if (!url.startsWith("http://") && !url.startsWith("https://")) {
+        url = "https://" + url;
+      }
+
+      // Attempt to load in iframe
+      const iframeContainer = document.getElementById("iframe-container");
+      iframeContainer.innerHTML = "";
+
+      try {
+        const iframe = document.createElement("iframe");
+        iframe.src = url;
+        iframeContainer.appendChild(iframe);
+      } catch (e) {
+        iframeContainer.innerHTML = `<p>⚠️ Could not load this site in an iframe. <a href="${url}" target="_blank">Open in new tab</a></p>`;
+      }
+
+      // Cloak tab using about:blank method
+      const win = window.open("about:blank", "_blank");
+      const cloakURL = cloakMap[cloak];
+      if (win) {
+        win.document.write(`
+          <html>
+            <head><title>Google Docs</title></head>
+            <body style="margin:0">
+              <iframe src="${url}" style="border:0;width:100vw;height:100vh;"></iframe>
+            </body>
+          </html>
+        `);
+        win.document.close();
+      }
+    });
+  </script>
 </body>
 </html>
