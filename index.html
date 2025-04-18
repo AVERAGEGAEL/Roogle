@@ -4,34 +4,65 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <title>Google Docs</title>
-  <link type="image/png" sizes="16x16" rel="icon" href="GoogleDocs.png" />
+  <link rel="icon" href="GoogleDocs.png" type="image/png" />
   <style>
     body {
-      font-family: 'Arial', sans-serif;
+      font-family: Arial, sans-serif;
       background-color: #f1f3f4;
       margin: 0;
       padding: 0;
       text-align: center;
     }
+
     #search-form {
       margin-top: 100px;
     }
+
     #url-input {
       padding: 10px;
       width: 50%;
       font-size: 16px;
+      border: 1px solid #ccc;
+      border-radius: 4px;
     }
+
     #search-button {
-      padding: 10px;
+      padding: 10px 20px;
       font-size: 16px;
-      background-color: #0078d4;
+      background-color: #1a73e8;
       color: white;
       border: none;
+      border-radius: 4px;
       cursor: pointer;
     }
+
     #search-button:hover {
-      background-color: #005a9e;
+      background-color: #155ab6;
     }
+
+    #cloak-section {
+      margin-top: 20px;
+    }
+
+    #cloak-section label {
+      font-size: 16px;
+      margin-right: 10px;
+    }
+
+    #cloak-section button {
+      margin: 5px;
+      padding: 8px 16px;
+      font-size: 14px;
+      border: none;
+      background-color: #e8eaed;
+      border-radius: 4px;
+      cursor: pointer;
+    }
+
+    #cloak-section button:hover {
+      background-color: #dadce0;
+    }
+
     iframe {
       width: 100%;
       height: 600px;
@@ -42,15 +73,13 @@
 </head>
 <body>
 
-  <h1 style="display: none;">Worker Proxy</h1>
-
   <form id="search-form">
-    <input type="text" id="url-input" placeholder="Type your URL" />
+    <input type="text" id="url-input" placeholder="Type your URL here" />
     <button type="submit" id="search-button">Go</button>
   </form>
 
   <!-- Cloak Option Buttons -->
-  <div style="margin-top: 10px;">
+  <div id="cloak-section">
     <label>Open in Cloaked Tab as:</label>
     <button onclick="setCloakOption('Google Docs')">Google Docs</button>
     <button onclick="setCloakOption('Classroom')">Classroom</button>
