@@ -4,7 +4,8 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Google Docs</title>
-    <link type="image/png" sizes="16x16" rel="icon" href="icons8-google-docs-color-16.png">
+    <link type="image/png" sizes="16x16" rel="icon" href="download.png"> <!-- Updated favicon -->
+    <script src="https://www.google.com/recaptcha/api.js" async defer></script> <!-- Google CAPTCHA -->
     <style>
         body {
             font-family: 'Arial', sans-serif;
@@ -53,12 +54,15 @@
             border: none;
             margin-top: 20px;
         }
+        #captcha-container {
+            margin-top: 20px;
+        }
     </style>
 </head>
 <body>
 
     <div class="header">
-        <img src="icons8-google-docs-color-16.png" alt="Google Docs Logo">
+        <img src="favicon.png" alt="Google Docs Logo">
         <span class="header-title">Google Docs</span>
     </div>
 
@@ -66,6 +70,11 @@
         <input type="text" id="url-input" placeholder="Type your URL" />
         <button type="submit" id="search-button">Go</button>
     </form>
+
+    <div id="captcha-container">
+        <!-- Google reCAPTCHA -->
+        <div class="g-recaptcha" data-sitekey="6Lfs_xsrAAAAAMBnldv22pHt8Q5mJe0es-fDd98s"></div>
+    </div>
 
     <div id="iframe-container"></div>
 
