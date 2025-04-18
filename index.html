@@ -4,33 +4,18 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Google Docs</title>
-    <link type="image/png" sizes="16x16" rel="icon" href="GoogleDocs.png"> <!-- Updated favicon -->
-    <script src="https://www.google.com/recaptcha/api.js" async defer></script> <!-- Google CAPTCHA -->
+    <link type="image/png" sizes="16x16" rel="icon" href="GoogleDocs.png">
+    <script src="https://www.google.com/recaptcha/api.js" async defer></script>
     <style>
         body {
             font-family: 'Arial', sans-serif;
             background-color: #f1f3f4;
             margin: 0;
             padding: 0;
-        }
-        .header {
-            background-color: #fff;
-            display: flex
-            align-items: center;
-            padding: 10px 20px;
-            box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
-        }
-        .header img {
-            height: 24px;
-            margin-right: 10px;
-        }
-        .header-title {
-            font-size: 20px;
-            color: #202124;
+            text-align: center;
         }
         #search-form {
-            text-align: center;
-            margin-top: 50px;
+            margin-top: 100px;
         }
         #url-input {
             padding: 10px;
@@ -40,13 +25,13 @@
         #search-button {
             padding: 10px;
             font-size: 16px;
-            background-color: #1a73e8;
+            background-color: #0078d4;
             color: white;
             border: none;
             cursor: pointer;
         }
         #search-button:hover {
-            background-color: #1558b0;
+            background-color: #005a9e;
         }
         iframe {
             width: 100%;
@@ -54,39 +39,31 @@
             border: none;
             margin-top: 20px;
         }
-        #captcha-container {
-            margin-top: 20px;
-        }
     </style>
 </head>
 <body>
 
-    <div class="header">
-        <img src="favicon.png" alt="Google Docs Logo">
-        <span class="header-title">Google Docs</span>
-    </div>
-
+    <h1>Google Docs</h1>
     <form id="search-form">
         <input type="text" id="url-input" placeholder="Type your URL" />
         <button type="submit" id="search-button">Go</button>
     </form>
 
-    <div id="captcha-container">
-        <!-- Google reCAPTCHA -->
-        <div class="g-recaptcha" data-sitekey="6Lfs_xsrAAAAAMBnldv22pHt8Q5mJe0es-fDd98s"></div>
-    </div>
+    <div class="g-recaptcha" data-sitekey="6Lfs_xsrAAAAAMBnldv22pHt8Q5mJe0es-fDd98s"></div>
 
     <div id="iframe-container"></div>
 
     <script>
         document.getElementById("search-form").addEventListener("submit", function(event) {
-            event.preventDefault();
+            event.preventDefault(); // Prevents the default form submission
             let url = document.getElementById("url-input").value;
 
+            // Add https:// if missing
             if (!url.startsWith("http://") && !url.startsWith("https://")) {
                 url = "https://" + url;
             }
 
+            // Create an iframe to display the URL
             let iframeContainer = document.getElementById("iframe-container");
             iframeContainer.innerHTML = `<iframe src="${url}" id="proxy-iframe"></iframe>`;
         });
