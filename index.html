@@ -7,32 +7,35 @@
   <link rel="icon" href="GoogleDocs.png" type="image/png" />
   <style>
     body {
-      font-family: Arial, sans-serif;
+      font-family: 'Arial', sans-serif;
       background-color: #f1f3f4;
       margin: 0;
       padding: 0;
       text-align: center;
     }
 
+    h1 {
+      margin-top: 40px;
+      font-size: 24px;
+      color: #202124;
+    }
+
     #search-form {
-      margin-top: 100px;
+      margin-top: 40px;
     }
 
     #url-input {
       padding: 10px;
       width: 50%;
       font-size: 16px;
-      border: 1px solid #ccc;
-      border-radius: 4px;
     }
 
     #search-button {
-      padding: 10px 20px;
+      padding: 10px;
       font-size: 16px;
       background-color: #1a73e8;
       color: white;
       border: none;
-      border-radius: 4px;
       cursor: pointer;
     }
 
@@ -40,94 +43,131 @@
       background-color: #155ab6;
     }
 
-    #cloak-section {
+    #iframe-container {
       margin-top: 20px;
-    }
-
-    #cloak-section label {
-      font-size: 16px;
-      margin-right: 10px;
-    }
-
-    #cloak-section button {
-      margin: 5px;
-      padding: 8px 16px;
-      font-size: 14px;
-      border: none;
-      background-color: #e8eaed;
-      border-radius: 4px;
-      cursor: pointer;
-    }
-
-    #cloak-section button:hover {
-      background-color: #dadce0;
     }
 
     iframe {
       width: 100%;
       height: 600px;
       border: none;
+      display: none;
+    }
+
+    /* Loading Spinner */
+    #loading-spinner {
+      display: none;
+      margin-top: 50px;
+    }
+
+    .spinner {
+      border: 6px solid #f3f3f3;
+      border-top: 6px solid #4285f4;
+      border-radius: 50%;
+      width: 50px;
+      height: 50px;
+      animation: spin 1s linear infinite;
+      margin: auto;
+    }
+
+    @keyframes spin {
+      0% { transform: rotate(0deg); }
+      100% { transform: rotate(360deg); }
+    }
+
+    /* Cloaked Tab Picker */
+    #cloak-options {
       margin-top: 20px;
+    }
+
+    #cloak-options label {
+      margin-right: 10px;
+    }
+
+    #cloak-options button {
+      margin: 0 5px;
+      padding: 5px 10px;
+      background-color: #e8f0fe;
+      border: 1px solid #c6dafc;
+      border-radius: 4px;
+      cursor: pointer;
+    }
+
+    #cloak-options button:hover {
+      background-color: #d2e3fc;
     }
   </style>
 </head>
 <body>
 
+  <h1>Google Docs Proxy</h1>
+
   <form id="search-form">
-    <input type="text" id="url-input" placeholder="Type your URL here" />
+    <input type="text" id="url-input" placeholder="Type your URL" />
     <button type="submit" id="search-button">Go</button>
   </form>
 
-  <!-- Cloak Option Buttons -->
-  <div id="cloak-section">
+  <!-- Cloak tab picker -->
+  <div id="cloak-options">
     <label>Open in Cloaked Tab as:</label>
     <button onclick="setCloakOption('Google Docs')">Google Docs</button>
     <button onclick="setCloakOption('Classroom')">Classroom</button>
     <button onclick="setCloakOption('Clever')">Clever</button>
   </div>
 
+  <!-- Spinner -->
+  <div id="loading-spinner">
+    <div class="spinner"></div>
+  </div>
+
+  <!-- Iframe container -->
   <div id="iframe-container"></div>
 
   <script>
-    const workerBase = "https://fallen-america.uraverageopdoge.workers.dev/?url=";
+    let cloakTitle = 'Google Docs';
 
-    // For iframe embed
+    function setCloakOption(option) {
+      cloakTitle = option;
+      document.title = option;
+    }
+
     document.getElementById("search-form").addEventListener("submit", function(event) {
       event.preventDefault();
-      let url = document.getElementById("url-input").value.trim();
+      let url = document.getElementById("url-input").value;
+
       if (!url.startsWith("http://") && !url.startsWith("https://")) {
         url = "https://" + url;
       }
-      let iframeContainer = document.getElementById("iframe-container");
-      iframeContainer.innerHTML = `<iframe src="${workerBase}${encodeURIComponent(url)}" id="proxy-iframe"></iframe>`;
+
+      // Cloaked tab using about:blank
+      const aboutBlankWindow = window.open("about:blank", "_blank");
+      if (aboutBlankWindow) {
+        const iframeHTML = `
+          <html>
+            <head><title>${cloakTitle}</title><link rel="icon" href="${location.origin}/GoogleDocs.png" /></head>
+            <body style="margin:0;padding:0;overflow:hidden;">
+              <iframe src="${url}" style="border:0;width:100vw;height:100vh;"></iframe>
+            </body>
+          </html>`;
+        aboutBlankWindow.document.write(iframeHTML);
+        aboutBlankWindow.document.close();
+      }
+
+      // Show loading spinner
+      const spinner = document.getElementById("loading-spinner");
+      spinner.style.display = "block";
+
+      const iframe = document.createElement("iframe");
+      iframe.src = url;
+      iframe.onload = function() {
+        spinner.style.display = "none";
+        iframe.style.display = "block";
+      };
+
+      const iframeContainer = document.getElementById("iframe-container");
+      iframeContainer.innerHTML = "";
+      iframeContainer.appendChild(iframe);
     });
-
-    // For cloaked tab
-    function setCloakOption(name) {
-      let url = document.getElementById("url-input").value.trim();
-      if (!url.startsWith("http://") && !url.startsWith("https://")) {
-        url = "https://" + url;
-      }
-
-      const finalUrl = `${workerBase}${encodeURIComponent(url)}`;
-
-      const win = window.open("about:blank", "_blank");
-      const doc = win.document;
-      doc.write(`
-        <!DOCTYPE html>
-        <html>
-          <head>
-            <title>${name}</title>
-            <link rel="icon" href="https://averagegael.github.io/Worker-Proxy/GoogleDocs.png" type="image/png">
-            <style>html, body { margin:0; padding:0; height:100%; overflow:hidden; }</style>
-          </head>
-          <body>
-            <iframe src="${finalUrl}" style="width:100vw;height:100vh;border:none;"></iframe>
-          </body>
-        </html>
-      `);
-      doc.close();
-    }
   </script>
 
 </body>
