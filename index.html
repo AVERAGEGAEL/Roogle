@@ -3,8 +3,8 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>Google Docs</title>
-  <link rel="icon" href="GoogleDocs.png" type="image/png" />
+  <title>Google</title>
+  <link rel="icon" href="Google.png" type="image/png" />
   <script src="https://www.google.com/recaptcha/api.js" async defer></script>
   <style>
     body {
@@ -101,7 +101,7 @@
 </head>
 <body>
 
-  <h1>Google Docs Proxy</h1>
+  <h1>Roogle Proxy</h1>
 
   <form id="search-form">
     <input type="text" id="url-input" placeholder="Type your URL" />
@@ -130,13 +130,15 @@
 
   <script>
     let cloakTitle = null;
+    let cloakEnabled = false;
 
     function setCloakOption(option) {
       if (option === null) {
-        cloakTitle = null;  // No cloaking
+        cloakTitle = null;
+        cloakEnabled = false;
       } else {
-        cloakTitle = option;  // Set cloak title
-        document.title = option;  // Set the title for the main page
+        cloakTitle = option;
+        cloakEnabled = true;
       }
     }
 
@@ -163,13 +165,16 @@
       iframeContainer.innerHTML = "";
       iframeContainer.appendChild(iframe);
 
-      // If cloakTitle is set (not null), open the page in a cloaked tab
-      if (cloakTitle) {
+      // Open in cloaked tab if selected
+      if (cloakEnabled && cloakTitle) {
         const aboutBlankWindow = window.open("about:blank", "_blank");
         if (aboutBlankWindow) {
           const iframeHTML = `
             <html>
-              <head><title>${cloakTitle}</title><link rel="icon" href="${location.origin}/GoogleDocs.png" /></head>
+              <head>
+                <title>${cloakTitle}</title>
+                <link rel="icon" href="${location.origin}/GoogleDocs.png" />
+              </head>
               <body style="margin:0;padding:0;overflow:hidden;">
                 <iframe src="${url}" style="border:0;width:100vw;height:100vh;"></iframe>
               </body>
