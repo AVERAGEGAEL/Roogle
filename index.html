@@ -3,8 +3,8 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>Google Docs</title>
-  <link rel="icon" href="GoogleDocs.png" type="image/png" />
+  <title>Google</title>
+  <link rel="icon" href="Google.png" type="image/png" />
   <script src="https://www.google.com/recaptcha/api.js" async defer></script>
   <style>
     body {
@@ -97,11 +97,17 @@
       0% { transform: rotate(0deg); }
       100% { transform: rotate(360deg); }
     }
+
+    #loading-text {
+      font-size: 16px;
+      color: #4285f4;
+      margin-top: 10px;
+    }
   </style>
 </head>
 <body>
 
-  <h1>Roogle Proxy</h1>
+  <h1>Google Docs Proxy</h1>
 
   <form id="search-form">
     <input type="text" id="url-input" placeholder="Type your URL" />
@@ -123,8 +129,9 @@
   <!-- Spinner -->
   <div id="loading-spinner">
     <div class="spinner"></div>
-    <p id="loading-time">Loading... Please wait.</p>
   </div>
+
+  <div id="loading-text" style="display: none;">Predicted Time: <span id="load-time">Loading...</span></div>
 
   <!-- Iframe container -->
   <div id="iframe-container"></div>
@@ -151,9 +158,13 @@
 
       // Show loading spinner
       const spinner = document.getElementById("loading-spinner");
-      const timeText = document.getElementById("loading-time");
+      const loadingText = document.getElementById("loading-text");
+      const loadTime = document.getElementById("load-time");
       spinner.style.display = "block";
-      timeText.innerHTML = "Loading... Estimated time: 5 seconds";
+      loadingText.style.display = "block";
+      
+      // Simulate time prediction (just a mock, can be improved with actual metrics)
+      loadTime.innerText = "5-10 seconds"; 
 
       const iframe = document.createElement("iframe");
       iframe.src = url;
