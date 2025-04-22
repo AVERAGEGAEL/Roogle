@@ -55,6 +55,7 @@
       display: none;
     }
 
+    /* Cloaked Tab Picker */
     #cloak-options {
       margin-top: 20px;
     }
@@ -76,9 +77,10 @@
       background-color: #d2e3fc;
     }
 
+    /* Loading Spinner */
     #loading-spinner {
       display: none;
-      margin-top: 50px;
+      margin-top: 30px;
     }
 
     .spinner {
@@ -91,15 +93,15 @@
       margin: auto;
     }
 
-    @keyframes spin {
-      0% { transform: rotate(0deg); }
-      100% { transform: rotate(360deg); }
-    }
-
-    #estimated-time {
+    #load-time {
       margin-top: 10px;
       font-size: 14px;
       color: #5f6368;
+    }
+
+    @keyframes spin {
+      0% { transform: rotate(0deg); }
+      100% { transform: rotate(360deg); }
     }
   </style>
 </head>
@@ -112,21 +114,25 @@
     <button type="submit" id="search-button">Go</button>
   </form>
 
+  <!-- Cloak tab picker -->
   <div id="cloak-options">
     <label>Open in Cloaked Tab as:</label>
-    <button onclick="setCloakOption('Google Docs')">Google Docs</button>
-    <button onclick="setCloakOption('Classroom')">Classroom</button>
-    <button onclick="setCloakOption('Clever')">Clever</button>
-    <button onclick="setCloakOption(null)">No Cloak</button>
+    <button type="button" onclick="setCloakOption('Google Docs')">Google Docs</button>
+    <button type="button" onclick="setCloakOption('Classroom')">Classroom</button>
+    <button type="button" onclick="setCloakOption('Clever')">Clever</button>
+    <button type="button" onclick="setCloakOption(null)">No Cloak</button>
   </div>
 
+  <!-- reCAPTCHA -->
   <div class="g-recaptcha" data-sitekey="6Lfs_xsrAAAAAMBnldv22pHt8Q5mJe0es-fDd98s"></div>
 
+  <!-- Spinner -->
   <div id="loading-spinner">
     <div class="spinner"></div>
-    <div id="estimated-time">Estimated load time: ~5 seconds</div>
+    <div id="load-time">Estimating load time...</div>
   </div>
 
+  <!-- Iframe container -->
   <div id="iframe-container"></div>
 
   <script>
@@ -138,18 +144,20 @@
 
     document.getElementById("search-form").addEventListener("submit", function(event) {
       event.preventDefault();
-
-      const urlInput = document.getElementById("url-input");
-      let url = urlInput.value.trim();
+      let url = document.getElementById("url-input").value;
 
       if (!url.startsWith("http://") && !url.startsWith("https://")) {
         url = "https://" + url;
       }
 
+      // Show loading spinner
       const spinner = document.getElementById("loading-spinner");
-      const estimatedTime = document.getElementById("estimated-time");
+      const loadTimeEl = document.getElementById("load-time");
       spinner.style.display = "block";
-      estimatedTime.textContent = "Estimated load time: ~5 seconds";
+
+      // Simulate load time prediction
+      const estimatedTime = Math.floor(Math.random() * 5) + 2; // 2 to 6 seconds
+      loadTimeEl.textContent = `Estimated load time: ${estimatedTime} seconds`;
 
       const iframe = document.createElement("iframe");
       iframe.src = url;
@@ -167,14 +175,9 @@
         if (newWindow) {
           const cloakHTML = `
             <html>
-              <head>
-                <title>${cloakTitle}</title>
-                <link rel="icon" href="${location.origin}/Google.png" type="image/png" />
-                <script src="https://www.google.com/recaptcha/api.js" async defer></script>
-              </head>
+              <head><title>${cloakTitle}</title><link rel="icon" href="${location.origin}/Google.png" /></head>
               <body style="margin:0;padding:0;overflow:hidden;">
-                <div class="g-recaptcha" data-sitekey="6Lfs_xsrAAAAAMBnldv22pHt8Q5mJe0es-fDd98s"></div>
-                <iframe src="${url}" style="width:100vw;height:95vh;border:0;"></iframe>
+                <iframe src="${url}" style="border:0;width:100vw;height:100vh;"></iframe>
               </body>
             </html>`;
           newWindow.document.write(cloakHTML);
