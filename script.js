@@ -1,16 +1,22 @@
-const input = document.getElementById("urlInput")
-const frame = document.getElementById("proxyFrame")
+// Add your JavaScript logic here if you prefer to externalize the script
 
-function go() {
-  let url = input.value.trim()
-  if (!url) return
+let cloakTitle = null;
 
-  if (!url.startsWith("http")) {
-    url = "https://" + url
+function setCloakOption(option) {
+  cloakTitle = option;
+}
+
+document.getElementById("search-form").addEventListener("submit", function(event) {
+  event.preventDefault();
+  let url = document.getElementById("url-input").value;
+
+  if (!url.startsWith("http://") && !url.startsWith("https://")) {
+    url = "https://" + url;
   }
 
-  const proxiedURL = "https://fallen-america.uraverageopdoge.workers.dev/?url=" + encodeURIComponent(url)
+  // Show loading spinner
+  const spinner = document.getElementById("loading-spinner");
+  spinner.style.display = "block";
 
-  frame.src = proxiedURL
-  document.title = "Connected · Google Docs"
-}
+  const predictedTime = document.getElementById("predicted-time");
+  let secondsLeft = Math.floor(Math.random() * 4 + 
