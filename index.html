@@ -22,7 +22,7 @@
     }
 
     #search-form {
-      margin-top: 40px;
+      margin-top: 30px;
     }
 
     #url-input {
@@ -42,17 +42,6 @@
 
     #search-button:hover {
       background-color: #155ab6;
-    }
-
-    #iframe-container {
-      margin-top: 20px;
-    }
-
-    iframe {
-      width: 100%;
-      height: 600px;
-      border: none;
-      display: none;
     }
 
     #cloak-options {
@@ -78,7 +67,7 @@
 
     #loading-spinner {
       display: none;
-      margin-top: 50px;
+      margin-top: 40px;
     }
 
     .spinner {
@@ -91,9 +80,22 @@
       margin: auto;
     }
 
+    #predicted-time {
+      font-size: 14px;
+      margin-top: 10px;
+      color: #5f6368;
+    }
+
     @keyframes spin {
       0% { transform: rotate(0deg); }
       100% { transform: rotate(360deg); }
+    }
+
+    iframe {
+      width: 100%;
+      height: 600px;
+      border: none;
+      display: none;
     }
   </style>
 </head>
@@ -106,7 +108,6 @@
     <button type="submit" id="search-button">Go</button>
   </form>
 
-  <!-- Cloak tab picker -->
   <div id="cloak-options">
     <label>Open in Cloaked Tab as:</label>
     <button onclick="setCloakOption('Google Docs')">Google Docs</button>
@@ -115,15 +116,13 @@
     <button onclick="setCloakOption(null)">No Cloak</button>
   </div>
 
-  <!-- reCAPTCHA -->
-  <div class="g-recaptcha" data-sitekey="6Lfs_xsrAAAAAMBnldv22pHt8Q5mJe0es-fDd98s" style="margin-top: 20px;"></div>
+  <div class="g-recaptcha" data-sitekey="6Lfs_xsrAAAAAMBnldv22pHt8Q5mJe0es-fDd98s"></div>
 
-  <!-- Spinner -->
   <div id="loading-spinner">
     <div class="spinner"></div>
+    <div id="predicted-time">Loading... estimating time</div>
   </div>
 
-  <!-- Iframe container -->
   <div id="iframe-container"></div>
 
   <script>
@@ -145,6 +144,15 @@
       const spinner = document.getElementById("loading-spinner");
       spinner.style.display = "block";
 
+      const predictedTime = document.getElementById("predicted-time");
+      let secondsLeft = Math.floor(Math.random() * 4 + 2); // Random 2-5s prediction
+
+      const interval = setInterval(() => {
+        predictedTime.textContent = `Estimated load time: ${secondsLeft} second(s)`;
+        secondsLeft--;
+        if (secondsLeft < 0) clearInterval(interval);
+      }, 1000);
+
       const iframe = document.createElement("iframe");
       iframe.src = url;
       iframe.onload = function() {
@@ -156,18 +164,14 @@
       iframeContainer.innerHTML = "";
       iframeContainer.appendChild(iframe);
 
-      // If cloakTitle is set and not null, open the page in about:blank
       if (cloakTitle) {
         const newWindow = window.open("about:blank", "_blank");
         if (newWindow) {
           const cloakHTML = `
             <html>
-              <head>
-                <title>${cloakTitle}</title>
-                <link rel="icon" href="${location.origin}/Google.png" />
-              </head>
+              <head><title>${cloakTitle}</title><link rel="icon" href="${location.origin}/Google.png" /></head>
               <body style="margin:0;padding:0;overflow:hidden;">
-                <iframe src="${url}" style="border:0;width:100vw;height:100vh;"></iframe>
+                <iframe src="${url}" style="width:100vw;height:100vh;border:0;"></iframe>
               </body>
             </html>`;
           newWindow.document.write(cloakHTML);
