@@ -2,39 +2,42 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Google</title>
-  <link rel="icon" href="Google.png" type="image/png">
+  <link rel="icon" href="Google.png" type="image/png" />
   <script src="https://www.google.com/recaptcha/api.js" async defer></script>
-  <link rel="stylesheet" href="styles.css">
+  <link rel="stylesheet" href="styles.css" />
 </head>
 <body>
+  <div class="main-container">
+    <h1 class="site-title">Roogle Proxy</h1>
 
-  <h1>Roogle Proxy</h1>
+    <form id="search-form">
+      <input type="text" id="url-input" placeholder="Enter URL (e.g., youtube.com)" />
+      <button type="submit" id="search-button">Go</button>
+    </form>
 
-  <form id="search-form">
-    <input type="text" id="url-input" placeholder="Enter a URL">
-    <button type="submit" id="search-button">Go</button>
-  </form>
+    <div id="cloak-slider">
+      <label for="cloak-type">Cloak tab as:</label>
+      <select id="cloak-type">
+        <option value="">None</option>
+        <option value="Google Docs">Google Docs</option>
+        <option value="Classroom">Classroom</option>
+        <option value="Clever">Clever</option>
+      </select>
+    </div>
 
-  <!-- Cloak Slider Section -->
-  <div id="cloak-slider">
-    <button onclick="slideCloak(-1)">&#9664;</button>
-    <span id="cloak-label">No Cloak</span>
-    <button onclick="slideCloak(1)">&#9654;</button>
+    <div class="g-recaptcha" data-sitekey="6Lfs_xsrAAAAAMBnldv22pHt8Q5mJe0es-fDd98s"></div>
+
+    <div id="loading-screen" style="display: none;">
+      <div class="spinner"></div>
+      <p id="load-estimate">Loading, please wait...</p>
+    </div>
+
+    <div id="iframe-container">
+      <iframe id="proxy-frame" src=""></iframe>
+    </div>
   </div>
-
-  <!-- reCAPTCHA -->
-  <div class="g-recaptcha" data-sitekey="6Lfs_xsrAAAAAMBnldv22pHt8Q5mJe0es-fDd98s"></div>
-
-  <!-- Loading Spinner -->
-  <div id="loading-spinner">
-    <div class="spinner"></div>
-    <p id="load-estimate"></p>
-  </div>
-
-  <!-- Iframe -->
-  <div id="iframe-container"></div>
 
   <script src="script.js"></script>
 </body>
