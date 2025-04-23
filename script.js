@@ -1,34 +1,37 @@
-let cloakTitle = null;
+let cloakOptions = ["None", "Google Docs", "Classroom", "Clever"];
+let currentCloakIndex = 0;
 
-function setCloakOption(option) {
-  cloakTitle = option;
-  if (option) {
-    document.title = option;
-  } else {
-    document.title = "Google";
-  }
+function updateCloakDisplay() {
+  const cloakName = cloakOptions[currentCloakIndex];
+  document.getElementById("cloak-name").innerText = cloakName;
 }
 
-document.getElementById("search-form").addEventListener("submit", function (event) {
-  event.preventDefault();
+document.getElementById("prev-cloak").addEventListener("click", () => {
+  currentCloakIndex = (currentCloakIndex - 1 + cloakOptions.length) % cloakOptions.length;
+  updateCloakDisplay();
+});
 
-  let url = document.getElementById("url-input").value.trim();
+document.getElementById("next-cloak").addEventListener("click", () => {
+  currentCloakIndex = (currentCloakIndex + 1) % cloakOptions.length;
+  updateCloakDisplay();
+});
+
+updateCloakDisplay();
+
+document.getElementById("search-form").addEventListener("submit", function(event) {
+  event.preventDefault();
+  let url = document.getElementById("url-input").value;
+
   if (!url.startsWith("http://") && !url.startsWith("https://")) {
     url = "https://" + url;
   }
 
-  // Show loading screen
   const spinner = document.getElementById("loading-spinner");
-  const loadText = document.getElementById("load-time");
   spinner.style.display = "block";
-
-  let estimate = Math.floor(Math.random() * 4 + 2); // Random 2-5 sec
-  loadText.textContent = `Estimated load time: ${estimate} seconds...`;
 
   const iframe = document.createElement("iframe");
   iframe.src = url;
-
-  iframe.onload = function () {
+  iframe.onload = function() {
     spinner.style.display = "none";
     iframe.style.display = "block";
   };
@@ -37,14 +40,14 @@ document.getElementById("search-form").addEventListener("submit", function (even
   iframeContainer.innerHTML = "";
   iframeContainer.appendChild(iframe);
 
-  // Open in cloaked tab
-  if (cloakTitle) {
+  const selectedCloak = cloakOptions[currentCloakIndex];
+  if (selectedCloak !== "None") {
     const newWindow = window.open("about:blank", "_blank");
     if (newWindow) {
       const cloakHTML = `
         <html>
           <head>
-            <title>${cloakTitle}</title>
+            <title>${selectedCloak}</title>
             <link rel="icon" href="${location.origin}/Google.png" />
           </head>
           <body style="margin:0;padding:0;overflow:hidden;">
