@@ -3,7 +3,7 @@ let cloakTitle = null;
 function setCloakOption(option) {
   if (option === null) {
     cloakTitle = null;
-    document.title = "Google"; // default title
+    document.title = "Google"; // default
   } else {
     cloakTitle = option;
     document.title = option;
@@ -22,6 +22,7 @@ document.getElementById("search-form").addEventListener("submit", function(event
   spinner.style.display = "block";
 
   const iframe = document.getElementById("proxy-iframe");
+  iframe.style.display = "none";
   iframe.src = url;
 
   iframe.onload = function () {
