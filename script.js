@@ -21,16 +21,13 @@ document.getElementById("search-form").addEventListener("submit", function(event
   const spinner = document.getElementById("loading-spinner");
   spinner.style.display = "block";
 
-  const iframe = document.createElement("iframe");
+  const iframe = document.getElementById("proxy-iframe");
   iframe.src = url;
+
   iframe.onload = function () {
     spinner.style.display = "none";
     iframe.style.display = "block";
   };
-
-  const iframeContainer = document.getElementById("iframe-container");
-  iframeContainer.innerHTML = "";
-  iframeContainer.appendChild(iframe);
 
   if (cloakTitle) {
     const newWindow = window.open("about:blank", "_blank");
