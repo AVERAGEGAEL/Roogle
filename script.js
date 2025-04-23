@@ -1,22 +1,14 @@
-let cloakOptions = ["None", "Google Docs", "Classroom", "Clever"];
-let currentCloakIndex = 0;
+let cloakTitle = null;
 
-function updateCloakDisplay() {
-  const cloakName = cloakOptions[currentCloakIndex];
-  document.getElementById("cloak-name").innerText = cloakName;
+function setCloakOption(option) {
+  if (option === null) {
+    cloakTitle = null;
+    document.title = "Google"; // default title
+  } else {
+    cloakTitle = option;
+    document.title = option;
+  }
 }
-
-document.getElementById("prev-cloak").addEventListener("click", () => {
-  currentCloakIndex = (currentCloakIndex - 1 + cloakOptions.length) % cloakOptions.length;
-  updateCloakDisplay();
-});
-
-document.getElementById("next-cloak").addEventListener("click", () => {
-  currentCloakIndex = (currentCloakIndex + 1) % cloakOptions.length;
-  updateCloakDisplay();
-});
-
-updateCloakDisplay();
 
 document.getElementById("search-form").addEventListener("submit", function(event) {
   event.preventDefault();
@@ -31,7 +23,7 @@ document.getElementById("search-form").addEventListener("submit", function(event
 
   const iframe = document.createElement("iframe");
   iframe.src = url;
-  iframe.onload = function() {
+  iframe.onload = function () {
     spinner.style.display = "none";
     iframe.style.display = "block";
   };
@@ -40,22 +32,19 @@ document.getElementById("search-form").addEventListener("submit", function(event
   iframeContainer.innerHTML = "";
   iframeContainer.appendChild(iframe);
 
-  const selectedCloak = cloakOptions[currentCloakIndex];
-  if (selectedCloak !== "None") {
+  if (cloakTitle) {
     const newWindow = window.open("about:blank", "_blank");
-    if (newWindow) {
-      const cloakHTML = `
-        <html>
-          <head>
-            <title>${selectedCloak}</title>
-            <link rel="icon" href="${location.origin}/Google.png" />
-          </head>
-          <body style="margin:0;padding:0;overflow:hidden;">
-            <iframe src="${url}" style="border:0;width:100vw;height:100vh;"></iframe>
-          </body>
-        </html>`;
-      newWindow.document.write(cloakHTML);
-      newWindow.document.close();
-    }
+    const cloakHTML = `
+      <html>
+        <head>
+          <title>${cloakTitle}</title>
+          <link rel="icon" href="Google.png" type="image/png" />
+        </head>
+        <body style="margin:0;padding:0;overflow:hidden;">
+          <iframe src="${url}" style="border:0;width:100vw;height:100vh;"></iframe>
+        </body>
+      </html>`;
+    newWindow.document.write(cloakHTML);
+    newWindow.document.close();
   }
 });
