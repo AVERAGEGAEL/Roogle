@@ -1,27 +1,22 @@
-let cloakTitle = null;
+let cloakTab = null;
 
-function setCloakOption(option) {
-  if (option === null) {
-    cloakTitle = null;
-    document.title = "Google"; // default
-  } else {
-    cloakTitle = option;
-    document.title = option;
-  }
+function setCloak(option) {
+  cloakTab = option;
+  document.title = option ? option : "Google";
 }
 
-document.getElementById("search-form").addEventListener("submit", function(event) {
-  event.preventDefault();
-  let url = document.getElementById("url-input").value;
+document.getElementById("search-form").addEventListener("submit", function(e) {
+  e.preventDefault();
+  let url = document.getElementById("url-input").value.trim();
 
   if (!url.startsWith("http://") && !url.startsWith("https://")) {
     url = "https://" + url;
   }
 
   const spinner = document.getElementById("loading-spinner");
-  spinner.style.display = "block";
-
   const iframe = document.getElementById("proxy-iframe");
+
+  spinner.style.display = "block";
   iframe.style.display = "none";
   iframe.src = url;
 
@@ -30,12 +25,12 @@ document.getElementById("search-form").addEventListener("submit", function(event
     iframe.style.display = "block";
   };
 
-  if (cloakTitle) {
+  if (cloakTab) {
     const newWindow = window.open("about:blank", "_blank");
     const cloakHTML = `
       <html>
         <head>
-          <title>${cloakTitle}</title>
+          <title>${cloakTab}</title>
           <link rel="icon" href="Google.png" type="image/png" />
         </head>
         <body style="margin:0;padding:0;overflow:hidden;">
