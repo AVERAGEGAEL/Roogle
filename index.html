@@ -3,12 +3,20 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Proxy</title>
+    <title>Google</title>
+    <link rel="icon" href="Google.png" type="image/png">
     <link rel="stylesheet" href="styles.css">
 </head>
 <body>
-    <h1>Proxy Service</h1>
-    <iframe src="https://example.com" width="100%" height="600"></iframe>
+    <h1>Roogle Proxy</h1>
+
+    <input type="text" id="urlInput" placeholder="Enter a URL" />
+    <button onclick="loadSite()">Go</button>
+
+    <div id="iframeContainer">
+        <iframe id="proxyFrame" src="" width="100%" height="600"></iframe>
+    </div>
+
     <script src="script.js"></script>
 </body>
 </html>
