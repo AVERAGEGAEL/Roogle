@@ -4,20 +4,22 @@ body, html {
   height: 100%;
   background-color: #f1f3f4;
   font-family: Arial, sans-serif;
-}
-
-.main-wrapper {
   display: flex;
   justify-content: center;
   align-items: center;
-  flex-direction: column;
-  padding: 30px;
+}
+
+.main-wrapper {
+  width: 100%;
+  display: flex;
+  justify-content: center;
 }
 
 .container {
-  width: 100%;
-  max-width: 1200px;
   text-align: center;
+  max-width: 1000px;
+  width: 100%;
+  padding: 20px;
 }
 
 h1 {
@@ -67,6 +69,11 @@ h1 {
   background-color: #d2e3fc;
 }
 
+.g-recaptcha {
+  margin: 20px auto;
+  display: inline-block;
+}
+
 #loading-spinner {
   display: none;
   margin: 20px auto;
@@ -87,15 +94,16 @@ h1 {
   100% { transform: rotate(360deg); }
 }
 
-#iframe-container {
+#iframe-wrapper {
   margin-top: 30px;
   width: 100%;
   height: 80vh;
+  display: flex;
+  justify-content: center;
 }
 
-#iframe-container iframe {
-  width: 100%;
+#proxy-iframe {
+  width: 95%;
   height: 100%;
   border: none;
-  display: none;
 }
