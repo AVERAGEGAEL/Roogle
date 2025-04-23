@@ -5,35 +5,31 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <title>Google</title>
   <link rel="icon" href="Google.png" type="image/png" />
-  <link rel="stylesheet" href="styles.css">
   <script src="https://www.google.com/recaptcha/api.js" async defer></script>
+  <link rel="stylesheet" href="styles.css">
 </head>
 <body>
-
-  <div class="header">
-    <h1>Roogle Proxy</h1>
-  </div>
+  <h1>Roogle Proxy</h1>
 
   <form id="search-form">
-    <input type="text" id="url-input" placeholder="Enter a website URL..." autocomplete="off" />
+    <input type="text" id="url-input" placeholder="Enter URL (e.g., google.com)" />
     <button type="submit" id="search-button">Go</button>
   </form>
 
-  <div id="cloak-options">
-    <label>Open in Cloaked Tab as:</label>
-    <button type="button" onclick="setCloakOption('Google Docs')">Google Docs</button>
-    <button type="button" onclick="setCloakOption('Classroom')">Classroom</button>
-    <button type="button" onclick="setCloakOption('Clever')">Clever</button>
-    <button type="button" onclick="setCloakOption(null)">No Cloak</button>
+  <!-- Cloak tab picker with arrows -->
+  <div id="cloak-slider">
+    <label>Cloak as:</label>
+    <button id="prev-cloak">&#9664;</button>
+    <span id="cloak-name">None</span>
+    <button id="next-cloak">&#9654;</button>
   </div>
 
-  <div id="captcha-box">
-    <div class="g-recaptcha" data-sitekey="6Lfs_xsrAAAAAMBnldv22pHt8Q5mJe0es-fDd98s"></div>
-  </div>
+  <!-- reCAPTCHA -->
+  <div class="g-recaptcha" data-sitekey="6Lfs_xsrAAAAAMBnldv22pHt8Q5mJe0es-fDd98s"></div>
 
+  <!-- Loading Spinner -->
   <div id="loading-spinner">
     <div class="spinner"></div>
-    <p id="load-time">Estimating load time...</p>
   </div>
 
   <div id="iframe-container"></div>
