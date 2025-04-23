@@ -9,33 +9,34 @@
   <link rel="stylesheet" href="styles.css" />
 </head>
 <body>
-  <div class="main-container">
-    <h1 class="site-title">Roogle Proxy</h1>
+  <div class="container">
+    <h1 class="main-title">Roogle Proxy</h1>
 
     <form id="search-form">
-      <input type="text" id="url-input" placeholder="Enter URL (e.g., youtube.com)" />
+      <input type="text" id="url-input" placeholder="Enter a URL" required />
       <button type="submit" id="search-button">Go</button>
     </form>
 
-    <div id="cloak-slider">
-      <label for="cloak-type">Cloak tab as:</label>
-      <select id="cloak-type">
-        <option value="">None</option>
+    <!-- Cloaked Tab Picker -->
+    <div class="cloak-picker">
+      <label for="cloak-slider">Cloak tab as:</label>
+      <select id="cloak-slider">
+        <option value="">No Cloak</option>
         <option value="Google Docs">Google Docs</option>
         <option value="Classroom">Classroom</option>
         <option value="Clever">Clever</option>
       </select>
     </div>
 
+    <!-- reCAPTCHA -->
     <div class="g-recaptcha" data-sitekey="6Lfs_xsrAAAAAMBnldv22pHt8Q5mJe0es-fDd98s"></div>
 
-    <div id="loading-screen" style="display: none;">
-      <div class="spinner"></div>
-      <p id="load-estimate">Loading, please wait...</p>
-    </div>
+    <!-- Loading Spinner -->
+    <div id="loading-spinner" class="spinner" style="display:none;"></div>
 
+    <!-- Iframe Viewer -->
     <div id="iframe-container">
-      <iframe id="proxy-frame" src=""></iframe>
+      <iframe id="proxy-iframe" src="" style="display:none;"></iframe>
     </div>
   </div>
 
