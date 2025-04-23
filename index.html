@@ -4,37 +4,37 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <title>Google</title>
-  <link rel="icon" href="Google.png" type="image/png" />
+  <link rel="icon" href="Google.png" type="image/png">
   <script src="https://www.google.com/recaptcha/api.js" async defer></script>
   <link rel="stylesheet" href="styles.css">
 </head>
 <body>
-  <div class="main-container">
-    <h1 class="title">Roogle Proxy</h1>
 
-    <form id="search-form">
-      <input type="text" id="url-input" placeholder="Enter URL..." />
-      <button type="submit" id="search-button">Go</button>
-    </form>
+  <h1>Roogle Proxy</h1>
 
-    <div class="cloak-slider">
-      <label>Cloak tab as:</label>
-      <button onclick="setCloak('Google Docs')">Google Docs</button>
-      <button onclick="setCloak('Classroom')">Classroom</button>
-      <button onclick="setCloak('Clever')">Clever</button>
-      <button onclick="setCloak(null)">None</button>
-    </div>
+  <form id="search-form">
+    <input type="text" id="url-input" placeholder="Enter a URL">
+    <button type="submit" id="search-button">Go</button>
+  </form>
 
-    <div class="recaptcha-container">
-      <div class="g-recaptcha" data-sitekey="6Lfs_xsrAAAAAMBnldv22pHt8Q5mJe0es-fDd98s"></div>
-    </div>
-
-    <div class="spinner" id="loading-spinner" style="display: none;"></div>
-
-    <div class="iframe-wrapper">
-      <iframe id="proxy-iframe" style="display: none;"></iframe>
-    </div>
+  <!-- Cloak Slider Section -->
+  <div id="cloak-slider">
+    <button onclick="slideCloak(-1)">&#9664;</button>
+    <span id="cloak-label">No Cloak</span>
+    <button onclick="slideCloak(1)">&#9654;</button>
   </div>
+
+  <!-- reCAPTCHA -->
+  <div class="g-recaptcha" data-sitekey="6Lfs_xsrAAAAAMBnldv22pHt8Q5mJe0es-fDd98s"></div>
+
+  <!-- Loading Spinner -->
+  <div id="loading-spinner">
+    <div class="spinner"></div>
+    <p id="load-estimate"></p>
+  </div>
+
+  <!-- Iframe -->
+  <div id="iframe-container"></div>
 
   <script src="script.js"></script>
 </body>
