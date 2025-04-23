@@ -2,25 +2,25 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Google</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Roogle</title>
   <link rel="icon" href="Google.png" type="image/png" />
   <script src="https://www.google.com/recaptcha/api.js" async defer></script>
-  <link rel="stylesheet" href="styles.css" />
+  <link rel="stylesheet" href="styles.css">
 </head>
 <body>
   <div class="container">
-    <h1 class="main-title">Roogle Proxy</h1>
+    <h1 class="title">Roogle Proxy</h1>
 
-    <form id="search-form">
-      <input type="text" id="url-input" placeholder="Enter a URL" required />
+    <form id="search-form" class="search-form">
+      <input type="text" id="url-input" placeholder="Enter a URL" />
       <button type="submit" id="search-button">Go</button>
     </form>
 
-    <!-- Cloaked Tab Picker -->
+    <!-- Cloak tab picker -->
     <div class="cloak-picker">
-      <label for="cloak-slider">Cloak tab as:</label>
-      <select id="cloak-slider">
+      <label>Open in Cloaked Tab as:</label>
+      <select id="cloak-select">
         <option value="">No Cloak</option>
         <option value="Google Docs">Google Docs</option>
         <option value="Classroom">Classroom</option>
@@ -32,11 +32,11 @@
     <div class="g-recaptcha" data-sitekey="6Lfs_xsrAAAAAMBnldv22pHt8Q5mJe0es-fDd98s"></div>
 
     <!-- Loading Spinner -->
-    <div id="loading-spinner" class="spinner" style="display:none;"></div>
+    <div id="loading-spinner" class="spinner" style="display: none;"></div>
 
-    <!-- Iframe Viewer -->
+    <!-- Iframe -->
     <div id="iframe-container">
-      <iframe id="proxy-iframe" src="" style="display:none;"></iframe>
+      <iframe id="proxy-frame" src="" frameborder="0"></iframe>
     </div>
   </div>
 
