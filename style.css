@@ -1,40 +1,41 @@
+/* Reset */
 body, html {
   margin: 0;
   padding: 0;
   height: 100%;
-  background-color: #f1f3f4;
   font-family: Arial, sans-serif;
+  background-color: #f1f3f4;
+}
+
+/* Full center container */
+.center-content {
   display: flex;
-  justify-content: center;
+  flex-direction: column;
   align-items: center;
-}
-
-.main-wrapper {
-  width: 100%;
-  display: flex;
-  justify-content: center;
-}
-
-.container {
+  justify-content: flex-start;
+  padding-top: 40px;
   text-align: center;
-  max-width: 1000px;
-  width: 100%;
-  padding: 20px;
 }
 
-h1 {
+/* Title */
+.title {
   font-size: 28px;
   color: #202124;
   margin-bottom: 20px;
 }
 
+/* Search input + button */
 #search-form {
-  margin: 20px 0;
+  display: flex;
+  gap: 10px;
+  justify-content: center;
+  margin-bottom: 20px;
+  flex-wrap: wrap;
 }
 
 #url-input {
+  width: 300px;
   padding: 12px;
-  width: 60%;
   font-size: 16px;
 }
 
@@ -44,7 +45,6 @@ h1 {
   background-color: #1a73e8;
   color: white;
   border: none;
-  margin-left: 10px;
   cursor: pointer;
 }
 
@@ -52,28 +52,30 @@ h1 {
   background-color: #155ab6;
 }
 
-#cloak-options {
-  margin: 20px 0;
+/* reCAPTCHA */
+.recaptcha-wrapper {
+  margin-bottom: 20px;
 }
 
-#cloak-options button {
+/* Cloak Buttons */
+.cloak-tabs {
+  margin-bottom: 20px;
+}
+
+.cloak-tabs button {
   margin: 5px;
-  padding: 8px 15px;
+  padding: 8px 14px;
   background-color: #e8f0fe;
   border: 1px solid #c6dafc;
   border-radius: 4px;
   cursor: pointer;
 }
 
-#cloak-options button:hover {
+.cloak-tabs button:hover {
   background-color: #d2e3fc;
 }
 
-.g-recaptcha {
-  margin: 20px auto;
-  display: inline-block;
-}
-
+/* Spinner */
 #loading-spinner {
   display: none;
   margin: 20px auto;
@@ -94,16 +96,18 @@ h1 {
   100% { transform: rotate(360deg); }
 }
 
-#iframe-wrapper {
-  margin-top: 30px;
-  width: 100%;
+/* Iframe wrapper */
+.iframe-wrapper {
+  width: 95%;
   height: 80vh;
+  margin-top: 20px;
   display: flex;
   justify-content: center;
+  align-items: center;
 }
 
 #proxy-iframe {
-  width: 95%;
+  width: 100%;
   height: 100%;
   border: none;
 }
