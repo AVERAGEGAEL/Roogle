@@ -9,30 +9,34 @@
   <link rel="stylesheet" href="styles.css">
 </head>
 <body>
-  <h1>Roogle Proxy</h1>
+  <div class="container">
+    <h1>Roogle Proxy</h1>
 
-  <form id="search-form">
-    <input type="text" id="url-input" placeholder="Enter URL (e.g., google.com)" />
-    <button type="submit" id="search-button">Go</button>
-  </form>
+    <form id="search-form">
+      <input type="text" id="url-input" placeholder="Enter URL" />
+      <button type="submit" id="search-button">Go</button>
+    </form>
 
-  <!-- Cloak tab picker with arrows -->
-  <div id="cloak-slider">
-    <label>Cloak as:</label>
-    <button id="prev-cloak">&#9664;</button>
-    <span id="cloak-name">None</span>
-    <button id="next-cloak">&#9654;</button>
+    <!-- Cloak tab picker -->
+    <div id="cloak-options">
+      <label>Open in Cloaked Tab as:</label>
+      <button onclick="setCloakOption('Google Docs')">Google Docs</button>
+      <button onclick="setCloakOption('Classroom')">Classroom</button>
+      <button onclick="setCloakOption('Clever')">Clever</button>
+      <button onclick="setCloakOption(null)">No Cloak</button>
+    </div>
+
+    <!-- reCAPTCHA -->
+    <div class="g-recaptcha" data-sitekey="6Lfs_xsrAAAAAMBnldv22pHt8Q5mJe0es-fDd98s"></div>
+
+    <!-- Loading -->
+    <div id="loading-spinner">
+      <div class="spinner"></div>
+    </div>
+
+    <!-- Iframe container -->
+    <div id="iframe-container"></div>
   </div>
-
-  <!-- reCAPTCHA -->
-  <div class="g-recaptcha" data-sitekey="6Lfs_xsrAAAAAMBnldv22pHt8Q5mJe0es-fDd98s"></div>
-
-  <!-- Loading Spinner -->
-  <div id="loading-spinner">
-    <div class="spinner"></div>
-  </div>
-
-  <div id="iframe-container"></div>
 
   <script src="script.js"></script>
 </body>
