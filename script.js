@@ -1,42 +1,32 @@
-const form = document.getElementById("proxy-form");
-const input = document.getElementById("url-input");
-const iframe = document.getElementById("proxy-frame");
-const loadingScreen = document.getElementById("loading-screen");
-const countdownEl = document.getElementById("countdown");
+document.addEventListener("DOMContentLoaded", function() {
+    const iframe = document.getElementById('proxyIframe');
+    const loadingScreen = document.getElementById('loadingScreen');
+    const mainContent = document.getElementById('mainContent');
+    const predictedTime = document.getElementById('time');
 
-const cloaks = ["Google Docs", "Classroom", "Clever"];
-let cloakIndex = 0;
+    let startTime = Date.now();
 
-function changeCloak(next) {
-  cloakIndex = (cloakIndex + (next === "Classroom" ? 1 : -1) + cloaks.length) % cloaks.length;
-  document.getElementById("cloak-display").textContent = cloaks[cloakIndex];
-  document.title = "Google"; // Keeps tab title consistent
-}
+    iframe.onload = function() {
+        const loadTime = (Date.now() - startTime) / 1000;
+        predictedTime.innerText = `${loadTime.toFixed(2)} seconds`;
+        loadingScreen.style.display = 'none';
+        mainContent.style.display = 'block';
+    };
 
-form.addEventListener("submit", (e) => {
-  e.preventDefault();
-  const url = input.value.trim();
+    // Simulate loading time for display purposes
+    setTimeout(function() {
+        const loadTime = (Date.now() - startTime) / 1000;
+        predictedTime.innerText = `${loadTime.toFixed(2)} seconds`;
+    }, 3000); // Assuming loading time (adjust as necessary)
 
-  if (!url) return;
-
-  let targetUrl = url.startsWith("http") ? url : "https://" + url;
-  let proxyUrl = `https://fallen-america.uraverageopdoge.workers.dev/?url=${encodeURIComponent(targetUrl)}`;
-
-  // Show loading screen
-  loadingScreen.classList.remove("hidden");
-  iframe.classList.add("hidden");
-
-  let time = 3;
-  countdownEl.textContent = time;
-
-  let countdown = setInterval(() => {
-    time--;
-    countdownEl.textContent = time;
-    if (time <= 0) {
-      clearInterval(countdown);
-      loadingScreen.classList.add("hidden");
-      iframe.src = proxyUrl;
-      iframe.classList.remove("hidden");
+    // Function to change iframe URL if needed
+    function changeIframeUrl(url) {
+        iframe.src = url;
+        loadingScreen.style.display = 'flex';
+        mainContent.style.display = 'none';
+        startTime = Date.now();
     }
-  }, 1000);
+
+    // Example usage:
+    // changeIframeUrl("https://www.youtube.com");
 });
