@@ -1,34 +1,41 @@
-document.getElementById("search-form").addEventListener("submit", function (e) {
-  e.preventDefault();
+document.getElementById("search-form").addEventListener("submit", function (event) {
+  event.preventDefault();
+  const urlInput = document.getElementById("url-input");
+  const iframe = document.getElementById("proxy-iframe");
+  const iframeContainer = document.getElementById("iframe-container");
+  const spinner = document.getElementById("loading-spinner");
+  let url = urlInput.value.trim();
 
-  const input = document.getElementById("url-input");
-  const cloakType = document.getElementById("cloak-type").value;
-  const url = input.value.startsWith("http") ? input.value : "https://" + input.value;
+  if (!url.startsWith("http://") && !url.startsWith("https://")) {
+    url = "https://" + url;
+  }
 
-  const loading = document.getElementById("loading-screen");
-  const iframe = document.getElementById("proxy-frame");
-
-  loading.style.display = "block";
+  // Show loading spinner
+  spinner.style.display = "block";
   iframe.style.display = "none";
 
-  setTimeout(() => {
-    loading.style.display = "none";
-    iframe.src = url;
-    iframe.style.display = "block";
-  }, 1500);
+  iframe.src = url;
 
-  if (cloakType) {
+  iframe.onload = () => {
+    spinner.style.display = "none";
+    iframe.style.display = "block";
+  };
+
+  const cloakOption = document.getElementById("cloak-slider").value;
+  if (cloakOption) {
     const newWindow = window.open("about:blank", "_blank");
-    if (newWindow) {
-      const cloakHTML = `
-        <html>
-          <head><title>${cloakType}</title><link rel="icon" href="Google.png"></head>
-          <body style="margin:0;padding:0;overflow:hidden;">
-            <iframe src="${url}" style="width:100vw;height:100vh;border:0;"></iframe>
-          </body>
-        </html>`;
-      newWindow.document.write(cloakHTML);
-      newWindow.document.close();
-    }
+    const cloakHTML = `
+      <html>
+        <head>
+          <title>${cloakOption}</title>
+          <link rel="icon" href="${location.origin}/Google.png" />
+        </head>
+        <body style="margin:0;overflow:hidden">
+          <iframe src="${url}" style="width:100vw;height:100vh;border:none;"></iframe>
+        </body>
+      </html>
+    `;
+    newWindow.document.write(cloakHTML);
+    newWindow.document.close();
   }
 });
