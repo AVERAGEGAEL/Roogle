@@ -1,50 +1,30 @@
-const cloakOptions = ["No Cloak", "Google Docs", "Classroom", "Clever"];
-let currentCloakIndex = 0;
+document.getElementById("search-form").addEventListener("submit", function (e) {
+  e.preventDefault();
 
-function slideCloak(direction) {
-  currentCloakIndex = (currentCloakIndex + direction + cloakOptions.length) % cloakOptions.length;
-  document.getElementById("cloak-label").innerText = cloakOptions[currentCloakIndex];
-}
+  const input = document.getElementById("url-input");
+  const cloakType = document.getElementById("cloak-type").value;
+  const url = input.value.startsWith("http") ? input.value : "https://" + input.value;
 
-document.getElementById("search-form").addEventListener("submit", function(event) {
-  event.preventDefault();
+  const loading = document.getElementById("loading-screen");
+  const iframe = document.getElementById("proxy-frame");
 
-  let url = document.getElementById("url-input").value;
-  if (!url.startsWith("http://") && !url.startsWith("https://")) {
-    url = "https://" + url;
-  }
+  loading.style.display = "block";
+  iframe.style.display = "none";
 
-  const iframeContainer = document.getElementById("iframe-container");
-  iframeContainer.innerHTML = "";
-  const iframe = document.createElement("iframe");
-  iframe.src = url;
-
-  iframe.onload = function () {
-    document.getElementById("loading-spinner").style.display = "none";
-    iframe.style.display = "block";
-  };
-
-  iframeContainer.appendChild(iframe);
-
-  // Spinner
-  const spinner = document.getElementById("loading-spinner");
-  spinner.style.display = "block";
-  const loadEstimate = document.getElementById("load-estimate");
-  loadEstimate.innerText = "Estimating load time...";
   setTimeout(() => {
-    loadEstimate.innerText = "Should load in 5-10 seconds...";
-  }, 1000);
+    loading.style.display = "none";
+    iframe.src = url;
+    iframe.style.display = "block";
+  }, 1500);
 
-  // Cloak
-  const cloakChoice = cloakOptions[currentCloakIndex];
-  if (cloakChoice !== "No Cloak") {
+  if (cloakType) {
     const newWindow = window.open("about:blank", "_blank");
     if (newWindow) {
       const cloakHTML = `
         <html>
-          <head><title>${cloakChoice}</title><link rel="icon" href="${location.origin}/Google.png" /></head>
-          <body style="margin:0;overflow:hidden;">
-            <iframe src="${url}" style="border:none;width:100vw;height:100vh;"></iframe>
+          <head><title>${cloakType}</title><link rel="icon" href="Google.png"></head>
+          <body style="margin:0;padding:0;overflow:hidden;">
+            <iframe src="${url}" style="width:100vw;height:100vh;border:0;"></iframe>
           </body>
         </html>`;
       newWindow.document.write(cloakHTML);
