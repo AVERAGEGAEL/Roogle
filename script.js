@@ -9,6 +9,7 @@ document.getElementById("proxyForm").addEventListener("submit", async (e) => {
   }
 
   try {
+    // Sending the reCAPTCHA token for verification
     const response = await fetch("https://fallen-america.uraverageopdoge.workers.dev/verify", {
       method: "POST",
       headers: {
@@ -22,6 +23,8 @@ document.getElementById("proxyForm").addEventListener("submit", async (e) => {
     if (result.success) {
       let finalUrl = input.startsWith("http") ? input : `https://${input}`;
       const frame = document.getElementById("proxyFrame");
+
+      // Pass the URL parameter correctly to the Worker
       frame.src = `https://fallen-america.uraverageopdoge.workers.dev/?url=${encodeURIComponent(finalUrl)}`;
     } else {
       alert("reCAPTCHA failed. Please try again.");
