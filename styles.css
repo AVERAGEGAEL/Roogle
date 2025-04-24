@@ -1,41 +1,18 @@
 body {
-  font-family: Arial, sans-serif;
+  font-family: sans-serif;
   text-align: center;
-  margin: 20px;
+  background-color: #f9f9f9;
+  margin: 0;
+  padding: 20px;
 }
 
-h1 {
-  color: #4CAF50;
-}
-
-#urlInput {
-  width: 60%;
+input, button {
   padding: 10px;
-  margin-bottom: 10px;
+  margin: 10px;
+  width: 300px;
+  font-size: 16px;
 }
 
-button {
-  padding: 10px;
-  background-color: #4CAF50;
-  color: white;
-  border: none;
-  cursor: pointer;
-}
-
-button:hover {
-  background-color: #45a049;
-}
-
-#iframeContainer {
+iframe {
   margin-top: 20px;
-}
-
-.hidden {
-  display: none;
-}
-
-.captcha-container {
-  display: flex;
-  justify-content: center;
-  margin-bottom: 20px;
 }
