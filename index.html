@@ -4,24 +4,19 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Google</title>
-  <link rel="icon" href="Google.png" type="image/png" />
+  <link rel="icon" href="Google.png" />
   <link rel="stylesheet" href="styles.css" />
   <script src="https://www.google.com/recaptcha/api.js" async defer></script>
 </head>
 <body>
-  <h1>Roogle Proxy</h1>
+  <h1>Roogle</h1>
+  <form id="proxyForm">
+    <input type="text" id="urlInput" placeholder="Enter URL (e.g. youtube.com)" />
+    <div class="g-recaptcha" data-sitekey="6Lfs_xsrAAAAAMBnldv22pHt8Q5mJe0es-fDd98s"></div>
+    <button type="submit">Go</button>
+  </form>
 
-  <div id="captchaContainer" class="captcha-container">
-    <div class="g-recaptcha" data-sitekey="6Lfs_xsrAAAAAMBnldv22pHt8Q5mJe0es-fDd98s" data-callback="enableProxy"></div>
-  </div>
-
-  <div id="proxyContainer" class="hidden">
-    <input type="text" id="urlInput" placeholder="Enter a URL" />
-    <button onclick="loadSite()">Go</button>
-    <div id="iframeContainer">
-      <iframe id="proxyFrame" src="" width="100%" height="600"></iframe>
-    </div>
-  </div>
+  <iframe id="proxyFrame" style="width: 100%; height: 90vh; border: none;"></iframe>
 
   <script src="script.js"></script>
 </body>
