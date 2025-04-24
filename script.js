@@ -1,32 +1,25 @@
-function enableProxy() {
-  document.getElementById('captchaContainer').classList.add('hidden');
-  document.getElementById('proxyContainer').classList.remove('hidden');
-}
+document.getElementById("proxyForm").addEventListener("submit", async (e) => {
+  e.preventDefault();
+  const input = document.getElementById("urlInput").value.trim();
+  const token = grecaptcha.getResponse();
 
-function loadSite() {
-  let url = document.getElementById('urlInput').value.trim();
-
-  // Automatically prepend https:// if missing
-  if (!url.startsWith('http://') && !url.startsWith('https://')) {
-    url = 'https://' + url;
+  if (!token) {
+    alert("Please complete the reCAPTCHA.");
+    return;
   }
 
-  // Route through Cloudflare Worker
-  const proxyUrl = `https://fallen-america.uraverageopdoge.workers.dev/?url=${encodeURIComponent(url)}`;
+  const response = await fetch("https://fallen-america.uraverageopdoge.workers.dev/verify", {
+    method: "POST",
+    body: JSON.stringify({ token }),
+  });
 
-  const iframe = document.getElementById('proxyFrame');
-  iframe.src = proxyUrl;
+  const result = await response.json();
 
-  // Update tab title
-  document.title = "Google";
-
-  // Wait for iframe to load and try replacing title (note: won’t work cross-domain)
-  iframe.onload = () => {
-    try {
-      let title = iframe.contentDocument.querySelector('title');
-      if (title) title.textContent = title.textContent.replace('G', 'R');
-    } catch (e) {
-      // Cross-domain iframe access is restricted
-    }
-  };
-}
+  if (result.success) {
+    let finalUrl = input.startsWith("http") ? input : `https://${input}`;
+    document.getElementById("proxyFrame").src =
+      `https://fallen-america.uraverageopdoge.workers.dev/?url=${encodeURIComponent(finalUrl)}`;
+  } else {
+    alert("reCAPTCHA failed. Try again.");
+  }
+});
