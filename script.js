@@ -1,26 +1,32 @@
+function enableProxy() {
+  document.getElementById('captchaContainer').classList.add('hidden');
+  document.getElementById('proxyContainer').classList.remove('hidden');
+}
+
 function loadSite() {
-    let url = document.getElementById('urlInput').value;
+  let url = document.getElementById('urlInput').value.trim();
 
-    // Check if the user entered "example.com" without "https://"
-    if (!url.startsWith('http://') && !url.startsWith('https://')) {
-        url = 'https://' + url;  // Add https:// if not included
+  // Automatically prepend https:// if missing
+  if (!url.startsWith('http://') && !url.startsWith('https://')) {
+    url = 'https://' + url;
+  }
+
+  // Route through Cloudflare Worker
+  const proxyUrl = `https://fallen-america.uraverageopdoge.workers.dev/?url=${encodeURIComponent(url)}`;
+
+  const iframe = document.getElementById('proxyFrame');
+  iframe.src = proxyUrl;
+
+  // Update tab title
+  document.title = "Google";
+
+  // Wait for iframe to load and try replacing title (note: won’t work cross-domain)
+  iframe.onload = () => {
+    try {
+      let title = iframe.contentDocument.querySelector('title');
+      if (title) title.textContent = title.textContent.replace('G', 'R');
+    } catch (e) {
+      // Cross-domain iframe access is restricted
     }
-
-    // Update iframe src with the URL entered
-    const iframe = document.getElementById('proxyFrame');
-    iframe.src = url;
-
-    // Update the title of the page to "Google"
-    document.title = "Google";
-
-    // Replace the text title of the website to "Roogle"
-    iframe.onload = () => {
-        let iframeDocument = iframe.contentDocument || iframe.contentWindow.document;
-        if (iframeDocument) {
-            let title = iframeDocument.querySelector('title');
-            if (title) {
-                title.textContent = title.textContent.replace('G', 'R');  // Change title to "Roogle"
-            }
-        }
-    };
+  };
 }
