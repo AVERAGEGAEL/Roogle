@@ -1,8 +1,7 @@
-body {
+body, html {
   margin: 0;
-  font-family: Arial, sans-serif;
-  background-color: #fff;
-  color: #333;
+  padding: 0;
+  height: 100%;  /* Ensure the body and html are also full height */
 }
 
 #header {
@@ -14,17 +13,17 @@ body {
 }
 
 #proxy-container {
-  padding: 10px;
   display: flex;
   flex-direction: column;
   height: 100vh;  /* Full viewport height */
-  margin: 0;
+  width: 100%;
 }
 
 #url-input {
   padding: 10px;
   font-size: 16px;
   margin-bottom: 5px;
+  width: calc(100% - 20px);  /* Adjust width to fit nicely */
 }
 
 #go-btn {
@@ -35,6 +34,7 @@ body {
   border: none;
   cursor: pointer;
   margin-bottom: 10px;
+  width: 100%;  /* Full width for button */
 }
 
 #go-btn:hover {
@@ -48,3 +48,4 @@ body {
   border: none;
   display: block;
 }
+
