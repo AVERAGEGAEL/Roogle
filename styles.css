@@ -23,10 +23,24 @@ body {
 #url-input {
   padding: 10px;
   font-size: 16px;
+  margin-bottom: 5px;
+}
+
+#go-btn {
+  padding: 10px;
+  font-size: 16px;
+  background-color: #4285f4;
+  color: white;
+  border: none;
+  cursor: pointer;
   margin-bottom: 10px;
 }
 
-#iframe {
+#go-btn:hover {
+  background-color: #3367d6;
+}
+
+#proxy-frame {
   flex-grow: 1;
   width: 100%;
   border: none;
