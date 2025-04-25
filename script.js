@@ -46,6 +46,7 @@ form.addEventListener("submit", async (e) => {
       statusMessage.textContent = "❌ reCAPTCHA failed or bad response.";
     }
   } catch (err) {
+    console.error("Error with fetch request:", err);
     statusMessage.textContent = "❌ Error contacting the proxy server.";
   }
 });
