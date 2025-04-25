@@ -1,25 +1,31 @@
-document.getElementById("proxyForm").addEventListener("submit", async (e) => {
+document.getElementById("proxy-form").addEventListener("submit", async (e) => {
   e.preventDefault();
-  const input = document.getElementById("urlInput").value.trim();
-  const token = grecaptcha.getResponse();
 
-  if (!token) {
+  const urlInput = document.getElementById("url-input").value.trim();
+  const recaptchaResponse = grecaptcha.getResponse();
+
+  if (!recaptchaResponse) {
     alert("Please complete the reCAPTCHA.");
     return;
   }
 
-  const response = await fetch("https://fallen-america.uraverageopdoge.workers.dev/verify", {
+  let url = urlInput.startsWith("http") ? urlInput : `https://${urlInput}`;
+
+  const res = await fetch("https://fallen-america.uraverageopdoge.workers.dev/", {
     method: "POST",
-    body: JSON.stringify({ token }),
+    headers: {
+      "Content-Type": "application/json"
+    },
+    body: JSON.stringify({ url, token: recaptchaResponse })
   });
 
-  const result = await response.json();
+  const data = await res.json();
 
-  if (result.success) {
-    let finalUrl = input.startsWith("http") ? input : `https://${input}`;
-    document.getElementById("proxyFrame").src =
-      `https://fallen-america.uraverageopdoge.workers.dev/?url=${encodeURIComponent(finalUrl)}`;
+  if (data.success) {
+    const iframe = document.getElementById("proxy-frame");
+    iframe.src = data.url;
+    iframe.style.display = "block";
   } else {
-    alert("reCAPTCHA failed. Try again.");
+    alert("reCAPTCHA failed or bad URL.");
   }
 });
