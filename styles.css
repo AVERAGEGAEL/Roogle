@@ -17,7 +17,8 @@ body {
   padding: 10px;
   display: flex;
   flex-direction: column;
-  height: calc(100vh - 100px);
+  height: 100vh;  /* Full viewport height */
+  margin: 0;
 }
 
 #url-input {
@@ -42,6 +43,8 @@ body {
 
 #proxy-frame {
   flex-grow: 1;
-  width: 100%;
+  width: 100%;  /* Full width */
+  height: 100%;  /* Full height */
   border: none;
+  display: block;
 }
