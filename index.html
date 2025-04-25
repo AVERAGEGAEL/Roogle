@@ -3,17 +3,29 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Roogle Proxy</title>
+    <title>Google</title>
+    <!-- Favicon -->
+    <link rel="icon" href="https://averagegael.github.io/Roogle/Google.png" type="image/png">
+
     <link rel="stylesheet" href="styles.css">
+    <!-- reCAPTCHA API -->
+    <script src="https://www.google.com/recaptcha/api.js" async defer></script>
 </head>
 <body>
-    <h1>Welcome to Roogle Proxy</h1>
+    <h1>Roogle</h1> <!-- Changed the welcome text -->
+
+    <!-- Form for Proxy -->
     <form id="proxyForm">
         <label for="url">Enter the URL to access:</label>
         <input type="url" id="url" name="url" placeholder="Enter URL here" required>
+        
+        <!-- reCAPTCHA -->
+        <div class="g-recaptcha" data-sitekey="6Lfs_xsrAAAAAMBnldv22pHt8Q5mJe0es-fDd98s"></div>
+
         <button type="submit">Proxy</button>
     </form>
     
+    <!-- iframe container -->
     <div id="iframe-container" style="display:none;">
         <iframe id="proxyIframe" src="" width="100%" height="600px"></iframe>
     </div>
