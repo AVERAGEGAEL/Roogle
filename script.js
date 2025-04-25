@@ -1,28 +1,15 @@
-document.getElementById('proxy-form').addEventListener('submit', async (e) => {
-  e.preventDefault();
-  let url = document.getElementById('url').value.trim();
-  const token = grecaptcha.getResponse();
+const input = document.getElementById("url-input");
+const iframe = document.getElementById("proxy-frame");
 
-  if (!token) return alert("Please complete the CAPTCHA");
+input.addEventListener("keypress", function (e) {
+  if (e.key === "Enter") {
+    let url = input.value.trim();
+    if (!url.startsWith("http")) {
+      url = "http://" + url;
+    }
 
-  // Add https:// if missing
-  if (!/^https?:\/\//i.test(url)) {
-    url = 'https://' + url;
+    // Encode URL and pass through Cloudflare Worker
+    const proxiedURL = `https://fallen-america.uraverageopdoge.workers.dev/?url=${encodeURIComponent(url)}`;
+    iframe.src = proxiedURL;
   }
-
-  const res = await fetch('https://fallen-america.uraverageopdoge.workers.dev/', {
-    method: 'POST',
-    headers: { 'Content-Type': 'application/json' },
-    body: JSON.stringify({ url, token })
-  });
-
-  const data = await res.json();
-  if (data.success && data.proxyUrl) {
-    document.getElementById('proxy-frame').src = data.proxyUrl;
-    document.getElementById('frame-container').style.display = 'block';
-  } else {
-    alert('Verification failed or bad URL.');
-  }
-
-  grecaptcha.reset(); // reset CAPTCHA
 });
