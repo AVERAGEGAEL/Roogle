@@ -1,22 +1,33 @@
 body {
-  font-family: Arial, sans-serif;
-  text-align: center;
-  background: #fff;
   margin: 0;
-  padding: 2em;
+  font-family: Arial, sans-serif;
+  background-color: #fff;
+  color: #333;
 }
-input {
-  padding: 0.5em;
-  width: 60%;
-  font-size: 1em;
+
+#header {
+  background-color: #4285f4;
+  color: white;
+  padding: 20px;
+  text-align: center;
+  font-size: 32px;
 }
-button {
-  padding: 0.5em 1em;
-  margin-top: 1em;
-  font-size: 1em;
+
+#proxy-container {
+  padding: 10px;
+  display: flex;
+  flex-direction: column;
+  height: calc(100vh - 100px);
 }
-iframe {
-  margin-top: 1em;
-  border: 1px solid #ccc;
-  border-radius: 8px;
+
+#url-input {
+  padding: 10px;
+  font-size: 16px;
+  margin-bottom: 10px;
+}
+
+#iframe {
+  flex-grow: 1;
+  width: 100%;
+  border: none;
 }
