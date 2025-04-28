@@ -3,32 +3,20 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Roogle</title> <!-- Changed tab title to "Roogle" -->
+    <title>Google</title>
     <link rel="icon" type="image/png" href="Google.png">
     <link rel="stylesheet" href="styles.css">
 </head>
 <body>
-    <div id="dashboard">
-        <header>
-            <h1>Roogle</h1>
-        </header>
+    <h1>Roogle</h1>
 
-        <section id="search-section">
-            <form id="proxyForm">
-                <input type="text" id="url" placeholder="Enter a URL..." required>
-                <button type="submit">Go</button>
-            </form>
-        </section>
+    <form id="proxyForm">
+        <input type="text" id="url" placeholder="Enter a URL..." required>
+        <button type="submit">Go</button>
+    </form>
 
-        <section id="iframe-section">
-            <div id="iframe-container" style="display: none;">
-                <iframe id="proxyIframe" style="width: 100%; height: 100%; border: none;"></iframe>
-            </div>
-        </section>
-
-        <footer>
-            <p>Powered by Roogle | A Proxy Solution</p>
-        </footer>
+    <div id="iframe-container" style="display: none; width: 100%; height: 90vh;">
+        <iframe id="proxyIframe" style="width: 100%; height: 100%; border: none;"></iframe>
     </div>
 
     <script>
@@ -51,8 +39,6 @@
 
             const proxyUrl = `https://fallen-america.uraverageopdoge.workers.dev/?url=${encodeURIComponent(urlInput)}`;
             iframe.src = proxyUrl;
-
-            // Show the iframe after setting the URL
             iframeContainer.style.display = 'block';
         });
     </script>
