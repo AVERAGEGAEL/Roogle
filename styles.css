@@ -1,32 +1,87 @@
+/* Reset default margins/paddings */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+/* Body style */
 body {
-    font-family: Arial, sans-serif;
-    padding: 20px;
-    text-align: center;
+    background-color: #f1f3f4;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    color: #202124;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 30px;
 }
 
+/* Header (Roogle) */
 h1 {
-    color: #4CAF50;
+    font-size: 48px;
+    margin-bottom: 20px;
+    color: #4285F4;
+    font-weight: bold;
 }
 
-#proxyForm {
-    margin-top: 20px;
+/* Form styles */
+form {
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+    margin-bottom: 20px;
+    width: 100%;
+    max-width: 600px;
 }
 
-input[type="url"] {
-    padding: 10px;
-    width: 60%;
-    margin: 10px 0;
+/* Input box */
+input[type="text"] {
+    padding: 12px 20px;
     font-size: 16px;
+    width: 80%;
+    border: 2px solid #dcdcdc;
+    border-radius: 8px 0 0 8px;
+    outline: none;
+    transition: border-color 0.3s;
 }
 
-button {
-    padding: 10px 20px;
-    background-color: #4CAF50;
+/* On focus input border */
+input[type="text"]:focus {
+    border-color: #4285F4;
+}
+
+/* Submit button */
+button[type="submit"] {
+    padding: 12px 20px;
+    font-size: 16px;
+    background-color: #4285F4;
     color: white;
     border: none;
+    border-radius: 0 8px 8px 0;
     cursor: pointer;
+    transition: background-color 0.3s;
 }
 
-button:hover {
-    background-color: #45a049;
+/* Button hover */
+button[type="submit"]:hover {
+    background-color: #3367D6;
+}
+
+/* iframe container */
+#iframe-container {
+    width: 100%;
+    max-width: 1200px;
+    height: 85vh;
+    margin-top: 20px;
+    border: 2px solid #dcdcdc;
+    border-radius: 10px;
+    overflow: hidden;
+}
+
+/* iframe itself */
+#proxyIframe {
+    width: 100%;
+    height: 100%;
+    border: none;
 }
