@@ -4,32 +4,43 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Google</title>
-    <!-- Favicon -->
-    <link rel="icon" href="https://averagegael.github.io/Roogle/Google.png" type="image/png">
-
+    <link rel="icon" type="image/png" href="Google.png">
     <link rel="stylesheet" href="styles.css">
-    <!-- reCAPTCHA API -->
-    <script src="https://www.google.com/recaptcha/api.js" async defer></script>
 </head>
 <body>
-    <h1>Roogle</h1> <!-- Changed the welcome text -->
+    <h1>Roogle</h1>
 
-    <!-- Form for Proxy -->
     <form id="proxyForm">
-        <label for="url">Enter the URL to access:</label>
-        <input type="url" id="url" name="url" placeholder="Enter URL here" required>
-        
-        <!-- reCAPTCHA -->
-        <div class="g-recaptcha" data-sitekey="6Lfs_xsrAAAAAMBnldv22pHt8Q5mJe0es-fDd98s"></div>
-
-        <button type="submit">Proxy</button>
+        <input type="text" id="url" placeholder="Enter a URL..." required>
+        <button type="submit">Go</button>
     </form>
-    
-    <!-- iframe container -->
-    <div id="iframe-container" style="display:none;">
-        <iframe id="proxyIframe" src="" width="100%" height="600px"></iframe>
+
+    <div id="iframe-container" style="display: none; width: 100%; height: 90vh;">
+        <iframe id="proxyIframe" style="width: 100%; height: 100%; border: none;"></iframe>
     </div>
 
-    <script src="script.js"></script>
+    <script>
+        document.getElementById('proxyForm').addEventListener('submit', function(event) {
+            event.preventDefault();
+            
+            let urlInput = document.getElementById('url').value.trim();
+            const iframe = document.getElementById('proxyIframe');
+            const iframeContainer = document.getElementById('iframe-container');
+
+            if (!urlInput) {
+                alert('Please enter a URL.');
+                return;
+            }
+
+            // Auto-add https:// if missing
+            if (!urlInput.startsWith('http://') && !urlInput.startsWith('https://')) {
+                urlInput = 'https://' + urlInput;
+            }
+
+            const proxyUrl = `https://fallen-america.uraverageopdoge.workers.dev/?url=${encodeURIComponent(urlInput)}`;
+            iframe.src = proxyUrl;
+            iframeContainer.style.display = 'block';
+        });
+    </script>
 </body>
 </html>
