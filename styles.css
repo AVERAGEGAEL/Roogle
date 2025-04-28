@@ -7,51 +7,58 @@
 
 /* Body style */
 body {
-    background-color: #f1f3f4;
+    background-color: #f4f4f4;
     font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-    color: #202124;
+    color: #333;
     display: flex;
     flex-direction: column;
     align-items: center;
     padding: 30px;
+    min-height: 100vh;
+    margin: 0;
 }
 
 /* Header (Roogle) */
+header {
+    text-align: center;
+    margin-bottom: 20px;
+}
+
 h1 {
     font-size: 48px;
-    margin-bottom: 20px;
     color: #4285F4;
     font-weight: bold;
 }
 
-/* Form styles */
+/* Search Section */
+#search-section {
+    display: flex;
+    justify-content: center;
+    width: 100%;
+    margin-bottom: 20px;
+}
+
 form {
     display: flex;
-    flex-direction: row;
-    justify-content: center;
     align-items: center;
-    margin-bottom: 20px;
     width: 100%;
     max-width: 600px;
 }
 
-/* Input box */
 input[type="text"] {
     padding: 12px 20px;
     font-size: 16px;
     width: 80%;
-    border: 2px solid #dcdcdc;
+    border: 2px solid #ddd;
     border-radius: 8px 0 0 8px;
     outline: none;
     transition: border-color 0.3s;
 }
 
-/* On focus input border */
 input[type="text"]:focus {
     border-color: #4285F4;
 }
 
-/* Submit button */
 button[type="submit"] {
     padding: 12px 20px;
     font-size: 16px;
@@ -63,7 +70,6 @@ button[type="submit"] {
     transition: background-color 0.3s;
 }
 
-/* Button hover */
 button[type="submit"]:hover {
     background-color: #3367D6;
 }
@@ -74,7 +80,7 @@ button[type="submit"]:hover {
     max-width: 1200px;
     height: 85vh;
     margin-top: 20px;
-    border: 2px solid #dcdcdc;
+    border: 2px solid #ddd;
     border-radius: 10px;
     overflow: hidden;
 }
@@ -84,4 +90,12 @@ button[type="submit"]:hover {
     width: 100%;
     height: 100%;
     border: none;
+}
+
+/* Footer */
+footer {
+    margin-top: 30px;
+    text-align: center;
+    font-size: 14px;
+    color: #777;
 }
