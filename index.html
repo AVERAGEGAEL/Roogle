@@ -12,7 +12,6 @@
   <div class="input-wrapper">
     <input type="text" id="urlInput" placeholder="Enter a URL">
     <button onclick="loadSite()">Go</button>
-    <button onclick="loadRoogleSearch()" class="search-button">Roogle Search</button>
   </div>
   
   <div id="error-message" style="display:none; color:red; font-size:16px;">This site is blocked from being embedded here.</div>
@@ -56,12 +55,6 @@
         return `https://www.youtube.com/embed/${videoId}`;
       }
       return url;
-    }
-
-    function loadRoogleSearch() {
-      const searchUrl = "https://averagegael.github.io/Roogle-search/";
-      document.getElementById('urlInput').value = searchUrl;
-      document.getElementById('proxyFrame').src = `https://fallen-america.uraverageopdoge.workers.dev/${searchUrl}`;
     }
   </script>
 </body>
