@@ -3,56 +3,52 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Google</title>
-    <link rel="icon" type="image/png" href="Google.png">
-    <link rel="stylesheet" href="styles.css">
+    <title>Roogle</title>
+    <style>
+        /* Add some basic styling for the button */
+        .search-button {
+            padding: 10px 20px;
+            font-size: 16px;
+            cursor: pointer;
+            background-color: #4CAF50;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            transition: background-color 0.3s ease;
+        }
+        .search-button:hover {
+            background-color: #45a049;
+        }
+    </style>
 </head>
 <body>
-    <h1>Roogle</h1>
 
-    <form id="proxyForm">
-        <input type="text" id="url" placeholder="Enter a URL..." required>
-        <button type="submit">Go</button>
-    </form>
-
-    <div id="loadingSpinner"></div>
-
-    <div id="iframe-container" style="display: none; width: 100%; height: 90vh;">
-        <iframe id="proxyIframe" style="width: 100%; height: 100%; border: none;"></iframe>
-    </div>
+    <!-- Button that triggers the search -->
+    <button class="search-button" onclick="openSearch()">Open Google Search</button>
 
     <script>
-        document.getElementById('proxyForm').addEventListener('submit', function(event) {
-            event.preventDefault();
+        function openSearch() {
+            // Open a new blank tab
+            var searchTab = window.open('about:blank', '_blank');
             
-            let urlInput = document.getElementById('url').value.trim();
-            const iframe = document.getElementById('proxyIframe');
-            const iframeContainer = document.getElementById('iframe-container');
-            const loadingSpinner = document.getElementById('loadingSpinner');
+            // Add Google Programmable Search script to the new tab
+            searchTab.document.write(`
+                <html>
+                    <head>
+                        <title>Google Search</title>
+                        <script async src="https://cse.google.com/cse.js?cx=266e92a1955024e41"></script>
+                    </head>
+                    <body>
+                        <h1>Google Search</h1>
+                        <div class="gcse-search"></div>
+                    </body>
+                </html>
+            `);
 
-            if (!urlInput) {
-                alert('Please enter a URL.');
-                return;
-            }
-
-            // Auto-add https:// if missing
-            if (!urlInput.startsWith('http://') && !urlInput.startsWith('https://')) {
-                urlInput = 'https://' + urlInput;
-            }
-
-            const proxyUrl = `https://fallen-america.uraverageopdoge.workers.dev/?url=${encodeURIComponent(urlInput)}`;
-            iframe.src = proxyUrl;
-
-            // Show loading spinner
-            loadingSpinner.style.display = 'block';
-
-            iframe.onload = () => {
-                // Hide loading spinner once iframe has loaded
-                loadingSpinner.style.display = 'none';
-            };
-
-            iframeContainer.style.display = 'block';
-        });
+            // Close the document writing after content is added
+            searchTab.document.close();
+        }
     </script>
+
 </body>
 </html>
