@@ -1,54 +1,33 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Roogle</title>
-    <style>
-        /* Add some basic styling for the button */
-        .search-button {
-            padding: 10px 20px;
-            font-size: 16px;
-            cursor: pointer;
-            background-color: #4CAF50;
-            color: white;
-            border: none;
-            border-radius: 5px;
-            transition: background-color 0.3s ease;
-        }
-        .search-button:hover {
-            background-color: #45a049;
-        }
-    </style>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Google</title>
+  <link rel="icon" href="Google.png" type="image/png">
+  <link rel="stylesheet" href="styles.css">
 </head>
 <body>
+  <h1>Roogle</h1>
+  <div class="input-wrapper">
+    <input type="text" id="urlInput" placeholder="Enter a URL">
+    <button onclick="loadSite()">Go</button>
+  </div>
+  <iframe id="proxyFrame" src="" frameborder="0"></iframe>
 
-    <!-- Button that triggers the search -->
-    <button class="search-button" onclick="openSearch()">Open Google Search</button>
+  <script>
+    function loadSite() {
+      const input = document.getElementById('urlInput').value.trim();
+      if (!input) return;
 
-    <script>
-        function openSearch() {
-            // Open a new blank tab
-            var searchTab = window.open('about:blank', '_blank');
-            
-            // Add Google Programmable Search script to the new tab
-            searchTab.document.write(`
-                <html>
-                    <head>
-                        <title>Google Search</title>
-                        <script async src="https://cse.google.com/cse.js?cx=266e92a1955024e41"></script>
-                    </head>
-                    <body>
-                        <h1>Google Search</h1>
-                        <div class="gcse-search"></div>
-                    </body>
-                </html>
-            `);
+      let formattedUrl = input;
+      if (!formattedUrl.startsWith("http://") && !formattedUrl.startsWith("https://")) {
+        formattedUrl = "https://" + formattedUrl;
+      }
 
-            // Close the document writing after content is added
-            searchTab.document.close();
-        }
-    </script>
-
+      const iframe = document.getElementById('proxyFrame');
+      iframe.src = `https://fallen-america.uraverageopdoge.workers.dev/${formattedUrl}`;
+    }
+  </script>
 </body>
 </html>
