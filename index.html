@@ -21,51 +21,9 @@
     <iframe id="proxyIframe" style="width: 100%; height: 100%; border: none;"></iframe>
   </div>
 
-  <script>
-    function isValidURL(str) {
-      try {
-        const url = new URL(str.startsWith('http') ? str : 'https://' + str);
-        return url.hostname.includes('.') && !url.hostname.includes(' ');
-      } catch (e) {
-        return false;
-      }
-    }
+  <!-- Fullscreen button -->
+  <button id="fullscreen-btn" title="Toggle Fullscreen">⛶</button>
 
-    document.getElementById('proxyForm').addEventListener('submit', function(event) {
-      event.preventDefault();
-
-      let urlInput = document.getElementById('url').value.trim();
-      const iframe = document.getElementById('proxyIframe');
-      const iframeContainer = document.getElementById('iframe-container');
-      const loadingSpinner = document.getElementById('loadingSpinner');
-
-      if (!urlInput) {
-        alert('Please enter a URL.');
-        return;
-      }
-
-      if (!isValidURL(urlInput)) {
-        alert('Invalid URL. Please enter a valid website like example.com or https://example.com.');
-        return;
-      }
-
-      // Auto-add https:// if missing
-      if (!urlInput.startsWith('http://') && !urlInput.startsWith('https://')) {
-        urlInput = 'https://' + urlInput;
-      }
-
-      const proxyUrl = `https://fallen-america.uraverageopdoge.workers.dev/?url=${encodeURIComponent(urlInput)}`;
-      iframe.src = proxyUrl;
-
-      // Show loading spinner
-      loadingSpinner.style.display = 'block';
-
-      iframe.onload = () => {
-        loadingSpinner.style.display = 'none';
-      };
-
-      iframeContainer.style.display = 'block';
-    });
-  </script>
+  <script src="script.js"></script>
 </body>
 </html>
