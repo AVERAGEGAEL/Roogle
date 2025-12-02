@@ -14,13 +14,13 @@ Future-Ready: Planned improvements include a more robust UI and support for more
 🔗 Official Links and Demos
 Experience Roogle and its features directly:
 
-Main Roogle Interface: averagegael.github.io/Roogle/
+Main Roogle Interface: https://averagegael.github.io/Roogle/
 
-2nd: averagegael.github.io/Maps/
+2nd: https://averagegael.github.io/Maps/
 
 Note: For the 2nd, click the Star Button and allow pop-ups when prompted.
 
-P3rd: averagegael.github.io/pop/
+3rd: https://averagegael.github.io/pop/
 
 Note: This  also requires you to allow pop-ups.
 
