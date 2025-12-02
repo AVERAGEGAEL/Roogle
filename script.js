@@ -20,9 +20,7 @@ const enableDebugCheckbox = document.getElementById("enableDebug");
 // -------------------- SITE BEHAVIOR CONFIG --------------------
 const iframeFallback = "";
 const clientProxySites = ["google.com", "youtube.com"];
-const blockedSites = ["poki.com", "retrogames.cc", "coolmathgames.com"];
 const TRUSTED_RECAPTCHA_ORIGINS = [
-  "https://recaptcha.uraverageopdoge.workers.dev",
   "https://cloud1.uraverageopdoge.workers.dev",
   "https://cloud2.rageinhaler.workers.dev",
   "https://cloud3.kevinthejordan.workers.dev",
