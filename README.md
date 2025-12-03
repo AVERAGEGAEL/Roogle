@@ -1,6 +1,6 @@
 🌐 Roogle
- OverviewL
-Roogle is a powerful, web-based proxy solution designed to bypass restrictions and access a wide range of content securely and reliably. It leverages the global infrastructure of Cloudflare Workers and implements a unique Smart Rotation system to ensure maximum uptime and performance.
+ Overview
+Roogle is a  web-based proxy  made to bypass restrictions and access a wide range of content securely and reliably. It uses Cloudflare Workers and has a unique Smart Rotation system to ensure maximum uptime and performance.
 
 Key Features
 Smart Rotation System: When one Cloudflare Worker encounters a block, failure, or rate limit, Roogle automatically and seamlessly switches to another available Worker. This intelligent system minimizes downtime and maximizes your ability to access content.
@@ -30,11 +30,13 @@ Roogle is built primarily using Cloudflare Workers for its distributed and perfo
 🚀 Future Enhancements
 The Roogle project is under active development, with exciting plans for the future:
 
-Enhanced User Interface (UI): A more intuitive and user-friendly design to improve the overall experience.
+Enhanced UI: A more cooler and user-friendly design to improve the overall experience, 
 
-New Proxy Types: Integration of different proxy mechanisms to increase compatibility and resilience like scramjet and etc.
+New Proxy Types: Integration of different proxy mechanisms to increase compatibility and resilience like scramjet and etc,
 
-Custom Quicklinks.
+Custom Quicklinks,
+
+adding Cache for faster speeds.
 
 🤝 Contribution & Feedback
 Roogle is a personal project, but feedback is always welcome! If you encounter issues or have suggestions, please open an issue on the repository.
