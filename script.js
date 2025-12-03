@@ -20,6 +20,8 @@ const enableDebugCheckbox = document.getElementById("enableDebug");
 // -------------------- SITE BEHAVIOR CONFIG --------------------
 const iframeFallback = "";
 const clientProxySites = ["google.com", "youtube.com"];
+
+// --- UPDATED BACKEND LIST (CORRECTED) ---
 const TRUSTED_RECAPTCHA_ORIGINS = [
   "https://cloud1.uraverageopdoge.workers.dev",
   "https://cloud2.rageinhaler.workers.dev",
@@ -27,179 +29,169 @@ const TRUSTED_RECAPTCHA_ORIGINS = [
   "https://cloud1.rageinhaler.workers.dev",
   "https://cloud2.uraverageopdoge.workers.dev",
   "https://cloud3.kevinthejordan.workers.dev",
-  "https://cloud2.kevinthejordan.workers.dev/",
+  "https://cloud2.kevinthejordan.workers.dev"
 ];
 
-// -------------------- SIDEBAR & UI LOGIC --------------------
+// Note: This URL is used for fallback if specific worker logic isn't triggered
+const BASE_WORKER_URL = "https://cloud1.uraverageopdoge.workers.dev/";
 
-// 1. Toggle Sidebar Open
-if (hamburgerBtn) {
-  hamburgerBtn.addEventListener("click", () => {
-    sidebar.classList.add("sidebar-open");
-    sidebar.setAttribute("aria-hidden", "false");
-  });
-}
-
-// 2. Close Sidebar
-if (closeSidebarBtn) {
-  closeSidebarBtn.addEventListener("click", () => {
-    sidebar.classList.remove("sidebar-open");
-    sidebar.setAttribute("aria-hidden", "true");
-  });
-}
-
-// 3. Quick Links Logic (UPDATED & FIXED)
-if (btnGoogle) {
-  btnGoogle.addEventListener("click", () => {
-    // We use the proxy for Google to prevent the "Blank White Screen" (X-Frame-Options block)
-    const googleUrl = "https://www.google.com/webhp?igu=1";
-    searchBox.value = googleUrl;
-    
-    // Use the robust loader to ensure container is visible
-    loadClientProxy(googleUrl);
-    
-    // Close sidebar
-    sidebar.classList.remove("sidebar-open");
-    sidebar.setAttribute("aria-hidden", "true");
-  });
-}
-
-if (btnHaha) {
-  btnHaha.addEventListener("click", () => {
-    // Use the exact domain that works manually
-    const hahaUrl = "https://hahagames.com"; 
-    searchBox.value = hahaUrl;
-    
-    loadClientProxy(hahaUrl);
-    
-    sidebar.classList.remove("sidebar-open");
-    sidebar.setAttribute("aria-hidden", "true");
-  });
-}
-
-// 4. Toggle Debug Logs
-if (enableDebugCheckbox) {
-  enableDebugCheckbox.addEventListener("change", (e) => {
-    if (debugLogs) {
-      debugLogs.style.display = e.target.checked ? "block" : "none";
-    }
-  });
-}
-
-// -------------------- HELPERS --------------------
-function isValidURL(str) {
-  try {
-    const url = new URL(str.startsWith("http") ? str : "https://" + str);
-    return url.hostname.includes(".");
-  } catch {
-    return false;
-  }
-}
-
-function needsClientProxy(url) {
-  return clientProxySites.some(site => new URL(url).hostname.includes(site));
-}
-
-function needsBlockedHandling(url) {
-  return blockedSites.some(site => new URL(url).hostname.includes(site));
-}
-
-function showSpinner(show = true) {
-  if (loadingSpinner) {
-      loadingSpinner.style.display = show ? "block" : "none";
-  }
-}
-
-// --- unified log system ---
-function logDebug(message, type = "info") {
-  // Only log if the element exists
-  if (!debugLogs) {
-    console.log(message);
-    return;
-  }
-  
-  const p = document.createElement("p");
-  p.textContent = `[${new Date().toLocaleTimeString()}] ${message}`;
-  p.style.color = type === "error" ? "red" : type === "warn" ? "orange" : "black";
-  
-  debugLogs.appendChild(p);
-  debugLogs.scrollTop = debugLogs.scrollHeight;
-  console.log(message);
-}
-const topLog = logDebug; // alias for backward compatibility
-
-// -------------------- MAIN HANDLER --------------------
-form.addEventListener("submit", async (e) => {
-  e.preventDefault();
-  e.stopPropagation();
-
-  let urlInput = searchBox.value.trim();
-  if (!urlInput) return alert("Please enter a URL.");
-  if (!isValidURL(urlInput)) return alert("Invalid URL. Use example.com or https://example.com.");
-
-  if (!urlInput.startsWith("http://") && !urlInput.startsWith("https://")) {
-    urlInput = "https://" + urlInput;
-  }
-
-  // Use client-proxy for everything (simplifies logic and fixes consistency)
-  if (needsBlockedHandling(urlInput)) {
-    alert("This site cannot be proxied reliably.");
-    return;
-  }
-
-  loadClientProxy(urlInput);
-});
-
-// -------------------- FULLSCREEN --------------------
-fullscreenBtn.addEventListener("click", () => {
-  if (!document.fullscreenElement) {
-    iframe.requestFullscreen().catch(err => {
-      alert(`Error enabling fullscreen: ${err.message}`);
-    });
+// -------------------- UTILITY FUNCTIONS --------------------
+function showSpinner(show) {
+  if (show) {
+    loadingSpinner.classList.remove("hidden");
   } else {
-    document.exitFullscreen();
+    loadingSpinner.classList.add("hidden");
+  }
+}
+
+function topLog(message, level = "info") {
+  if (enableDebugCheckbox && enableDebugCheckbox.checked) {
+    const p = document.createElement("p");
+    p.classList.add(level);
+    p.textContent = message;
+    debugLogs.prepend(p);
+  }
+}
+
+function logDebug(message, level = "info") {
+  if (enableDebugCheckbox && enableDebugCheckbox.checked) {
+    const p = document.createElement("p");
+    p.classList.add(level);
+    p.textContent = message;
+    debugLogs.prepend(p);
+  }
+}
+
+function getBaseUrl(url) {
+  try {
+    const u = new URL(url.startsWith('http') ? url : 'https://' + url);
+    return u.hostname;
+  } catch {
+    return url;
+  }
+}
+
+function normalizeUrl(url) {
+  if (!url.startsWith("http")) {
+    url = "https://" + url;
+  }
+  return url;
+}
+
+function isProxyRequired(url) {
+  const normalizedUrl = getBaseUrl(url);
+
+  // Check against sites explicitly listed as needing the client proxy (worker rotation)
+  if (clientProxySites.some(site => normalizedUrl.includes(site))) {
+    return true;
+  }
+  
+  // Check against sites that are typically blocked or complex to proxy
+  if (normalizedUrl.includes("discord.com") || normalizedUrl.includes("reddit.com")) {
+      return true;
+  }
+
+  return false;
+}
+
+// Loads the URL using the Client Proxy Rotation (Slow but Reliable)
+function loadClientProxy(url) {
+  topLog(`Loading URL via Client Proxy: ${url}`);
+  showSpinner(true);
+  searchBox.value = getBaseUrl(url);
+
+  // The proxyIframe loads the client-proxy.html with the target URL in the hash
+  iframe.src = `./client-proxy.html#url=${encodeURIComponent(url)}`;
+}
+
+// Loads the URL using a direct embed (Fast but potentially blocked)
+function loadDirectEmbed(url) {
+    const normalizedUrl = normalizeUrl(url);
+    topLog(`Loading URL via Direct Embed: ${normalizedUrl}`, "warn");
+    
+    // Clear the current content and set the new src
+    iframe.src = ''; 
+    iframe.src = normalizedUrl;
+    
+    // Since this bypasses the proxy engine, we must manually dismiss the spinner
+    showSpinner(false); 
+    topLog("Direct embed attempted. Check console for X-Frame-Options or CSP blocks.", "warn");
+}
+
+function loadUrl(url) {
+  if (!url) return;
+  
+  if (isProxyRequired(url)) {
+    loadClientProxy(url);
+  } else {
+    // If we have a single fallback worker and the site isn't special, try that first
+    if (iframeFallback && !url.includes(BASE_WORKER_URL)) {
+      loadClientProxy(`${BASE_WORKER_URL}?url=${encodeURIComponent(url)}`);
+    } else {
+      loadClientProxy(url);
+    }
+  }
+}
+
+
+// -------------------- EVENT LISTENERS --------------------
+
+// Form submission handler
+form.addEventListener("submit", (e) => {
+  e.preventDefault();
+  const url = searchBox.value.trim();
+  if (url) {
+    if (isProxyRequired(url)) {
+      loadClientProxy(url);
+    } else {
+      loadClientProxy(url);
+    }
   }
 });
 
-// -------------------- CLIENT PROXY LOADING (FIXED) --------------------
-function loadClientProxy(url) {
-  console.log("Loading URL:", url);
+// Fullscreen button
+fullscreenBtn.addEventListener("click", () => {
+  if (iframeContainer.requestFullscreen) {
+    iframeContainer.requestFullscreen();
+  } else if (iframeContainer.webkitRequestFullscreen) { /* Safari */
+    iframeContainer.webkitRequestFullscreen();
+  } else if (iframeContainer.msRequestFullscreen) { /* IE11 */
+    iframeContainer.msRequestFullscreen();
+  }
+});
 
-  // 1. Force the container to be visible (This fixes the "nothing showing" bug)
-  iframeContainer.style.display = "block"; 
-  showSpinner(true);
-  
-  // 2. Clear iframe briefly to force a refresh (fixes stuck iframes)
-  iframe.src = "about:blank";
+// Sidebar open/close
+hamburgerBtn.addEventListener("click", () => {
+  sidebar.classList.add("sidebar-open");
+});
 
-  // 3. Load the Proxy after a tiny delay
-  setTimeout(() => {
-    // Check if we need to clean up the URL (add https if missing)
-    if (!url.startsWith("http")) { 
-        url = "https://" + url.trim(); 
-    }
+closeSidebarBtn.addEventListener("click", () => {
+  sidebar.classList.remove("sidebar-open");
+});
 
-    // Load via the client-proxy.html system
-    iframe.src = "client-proxy.html#url=" + encodeURIComponent(url);
+// -------------------- QUICK LINK LISTENERS (UPDATED) --------------------
 
-    // 4. Fallback: Hide spinner after 8 seconds if iframe gets stuck
-    setTimeout(() => showSpinner(false), 8000);
-  }, 50);
-}
+btnGoogle.addEventListener("click", () => {
+  // FAST DIRECT EMBED with IGU=1 to bypass frame blocks
+  loadDirectEmbed("https://www.google.com/webhp?igu=1");
+});
 
-// -------------------- MESSAGE HANDLER (client-proxy) --------------------
-window.addEventListener("message", (event) => {
-  const origin = event.origin || "";
-  const d = event.data || {};
+btnHaha.addEventListener("click", () => {
+  // FAST DIRECT EMBED
+  loadDirectEmbed("https://www.hahagames.com");
+});
 
-  // ---------- Structured logs from client-proxy ----------
-  if (d.type === "clientProxy:log") {
-    const e = d.payload || {};
-    topLog(`${e.ts} ${e.level.toUpperCase()}: ${e.message}`, e.level === "error" ? "error" : "info");
+// -------------------- MESSAGE LISTENER --------------------
+window.addEventListener("message", (ev) => {
+  const d = ev.data || {};
+
+  // Ignore non-Roogle messages
+  if (!d.type.startsWith("clientProxy:") && d.type !== "navigate" && d.type !== "debugLog") {
     return;
   }
 
-  if (d.type === "clientProxy:attemptBackend") return topLog(`Attempting backend ${d.backend} → ${d.target}`);
+  // Handle messages related to the proxy load process
+  if (d.type === "clientProxy:backendTest") return topLog(`Testing backend ${d.backend} → ${d.target}`);
   if (d.type === "clientProxy:backendSuccess") return topLog(`Backend success: ${d.backend}`);
   if (d.type === "clientProxy:backendFail") return topLog(`Backend fail: ${d.backend} — ${d.info || d.error || d.status}`, "warn");
   if (d.type === "clientProxy:backendError" || d.type === "backendError") {
@@ -220,10 +212,9 @@ window.addEventListener("message", (event) => {
     return;
   }
 
-  // ---------- Navigation command from iframe (if inner page posts a 'navigate' message) ----------
+  // ---------- Navigation command from iframe ----------
   if (d && d.type === "navigate" && d.url) {
     topLog(`Navigation requested by proxied page → ${d.url}`);
-    // route through client-proxy
     loadClientProxy(d.url);
     return;
   }
@@ -235,10 +226,11 @@ window.addEventListener("message", (event) => {
 });
 
 // -------------------- INIT --------------------
-window.addEventListener("load", () => {
-  const target = (new URLSearchParams(window.location.hash.replace(/^#/, ""))).get("url");
-  if (target) {
-    logDebug("Auto-loading URL from hash: " + target);
-    loadClientProxy(target);
+// Initial check for URL in the hash
+if (window.location.hash) {
+  const p = new URLSearchParams(window.location.hash.slice(1));
+  const url = p.get("url");
+  if (url) {
+    loadUrl(url);
   }
-});
+}
