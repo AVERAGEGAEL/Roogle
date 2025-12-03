@@ -26,6 +26,8 @@ Note: For the 2nd, click the Star Button and allow pop-ups when prompted.
 
 Note: This  also requires you to allow pop-ups.
 
+If you want a localized Roogle just download the zipfile and click on index.html.
+
 🛠️ Technology
 Roogle is built primarily using Cloudflare Workers for its distributed and performant proxy network. The core innovation lies in the Smart Rotation logic that manages the health and availability of the worker pool.
 
