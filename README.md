@@ -9,6 +9,8 @@ Comprehensive Proxying: Roogle is built to handle a variety of requests.
 
 Specialized Access: Successfully proxies major platforms like Google and entertainment sites like Hahagames.
 
+Multiple backends: 7! 
+
 Future-Ready: Planned improvements include a more robust UI and support for more proxy types.
 
 🔗 Official Links and Demos
