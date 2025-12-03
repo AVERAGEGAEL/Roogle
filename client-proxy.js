@@ -37,40 +37,36 @@ async function loadViaBackend(url) {
   showOverlay();
   log("Starting proxy engine for: " + url);
 
+  // UPDATED BACKEND LIST
   const backends = [
     "https://cloud1.uraverageopdoge.workers.dev",
     "https://cloud2.rageinhaler.workers.dev",
-    "https://cloud3.rageinhaler.workers.dev",
+    "https://cloud3.kevinthejordan.workers.dev",
     "https://cloud1.rageinhaler.workers.dev",
     "https://cloud2.uraverageopdoge.workers.dev",
     "https://cloud3.kevinthejordan.workers.dev",
-    "https://recaptcha.uraverageopdoge.workers.dev"
+    "https://cloud2.kevinthejordan.workers.dev"
   ];
 
-  // Randomize backends for better load distribution
-  const shuffled = backends.sort(() => 0.5 - Math.random());
-
-  for (const backend of shuffled) {
-    log("Trying backend: " + backend);
+  for (const backend of backends) {
+    sendParent({ type: "clientProxy:backendTest", backend, target: url });
     
-    // --- FIX APPLIED HERE ---
-    // Was: const proxyUrl = `${backend}/?url=...`
-    // Now: We added /proxy back to the path so the worker knows what to do.
-    const proxyUrl = `${backend}/proxy?url=${encodeURIComponent(url)}&_t=${Date.now()}`;
+    // Construct the proxy URL (backend + ?url=...)
+    const proxyUrl = `${backend}?url=${encodeURIComponent(url)}`;
     
+    // Attempt to load
     const success = await tryLoad(proxyUrl, backend);
-    if (success) {
-      log("Backend success: " + backend);
-      sendParent({ type: "clientProxy:backendSuccess", backend });
-      // Keep overlay hidden
-      return; 
-    }
     
-    log("Backend failed: " + backend, "warn");
-    sendParent({ type: "clientProxy:backendFail", backend });
+    if (success) {
+      log(`Success with backend: ${backend}`, "success");
+      sendParent({ type: "clientProxy:backendSuccess", backend });
+      return; // Stop after first success
+    } else {
+      sendParent({ type: "clientProxy:backendFail", backend });
+    }
   }
 
-  // If we get here, all backends failed
+  // If loop finishes, all failed
   log("All backends failed.", "error");
   sendParent({ type: "clientProxy:backendError", info: "All proxies failed." });
   alert("Could not connect to any proxy server. Please try again later.");
@@ -129,8 +125,8 @@ window.addEventListener("load", () => {
 window.addEventListener("message", (ev) => {
   const d = ev.data || {};
   
-  if (d.type === "recaptchaResult") {
-    // If the parent passes down a recaptcha result
-    // (In this architecture, usually the parent handles it, but just in case)
+  if (d.type === "navigate" && d.url) {
+    // If the inner site asks to navigate, restart the rotation for the new URL
+    loadViaBackend(d.url);
   }
 });
